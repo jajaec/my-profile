@@ -3,12 +3,10 @@
     "name": "김정렴",
     "role": "DX Expert & IT Team Leader",
     "email": "jajaec1025@gmail.com",
-    "phone": "010-3589-4453",
     "location": "경기 안산시, 대한민국",
     "bio": "AI 기반 개발 역량과 전략적 리더십을 겸비한 18년 경력의 DX 전문가입니다.",
     "profileImage": "https://lh3.googleusercontent.com/d/1IdByzECB6vYDz8TjK5SrlmTqEdHQ4ukD",
     "social": {
-      "github": "https://github.com/jajaec",
       "email": "jajaec1025@gmail.com"
     }
   },
@@ -82,12 +80,12 @@
         "company": "로얄앤컴퍼니",
         "role": "정보관리팀 팀장",
         "period": "2018.03 ~ 현재",
-        "description": "전사 IT 혁신 및 디지털 전환(DX) 주도 [2]",
+        "description": "전사 IT 혁신 및 디지털 전환(DX) 주도",
         "tasks": [
-          "정보관리팀 인력 및 프로젝트 관리, 영업(B2C) 및 업무자동화 개발 [2]",
-          "자체 ERP 개발 및 운영, 인사/회계(더존) ERP 운영 [2]",
-          "AI(GenAI) 기반 고객지원 챗봇 및 품질검사 프로그램 개발 [2]",
-          "MS Power Automate를 활용한 전사 RPA 과제 적용 [2]"
+          "정보관리팀 인력 및 프로젝트 관리, 영업(B2C) 및 업무자동화 개발",
+          "자체 ERP 개발 및 운영, 인사/회계(더존) ERP 운영",
+          "AI(GenAI) 기반 고객지원 챗봇 및 품질검사 프로그램 개발",
+          "MS Power Automate를 활용한 전사 RPA 과제 적용"
         ],
         "techStack": ["C#", "Python", "Power Automate", "MSSQL", "DB2"]
       },
@@ -95,11 +93,11 @@
         "company": "청림엔지니어링",
         "role": "전산제어팀 과장",
         "period": "2017.05 ~ 2018.02",
-        "description": "자동차 부품 검사 및 제어 시스템 개발 [3]",
+        "description": "자동차 부품 검사 및 제어 시스템 개발",
         "tasks": [
-          "CPM 비젼 시스템 유지보수 (현대모비스) [3]",
-          "FEM 헤드램프 장착 시스템 및 FCA 유닛 검사 시스템 개발 [3]",
-          "Serial 통신 기반 컨트롤 시스템 개발 [3]"
+          "CPM 비젼 시스템 유지보수 (현대모비스)",
+          "FEM 헤드램프 장착 시스템 및 FCA 유닛 검사 시스템 개발",
+          "Serial 통신 기반 컨트롤 시스템 개발"
         ],
         "techStack": ["VB6.0", "C#", "AccessDB", "Serial통신"]
       },
@@ -107,10 +105,10 @@
         "company": "마리타임레디오",
         "role": "기술연구소 차장/팀장",
         "period": "2014.07 ~ 2017.03",
-        "description": "e-Navigation 및 선박 네트워크 시스템 연구 개발 [3]",
+        "description": "e-Navigation 및 선박 네트워크 시스템 연구 개발",
         "tasks": [
-          "소형선박용 항해기록 장치 개발 [3]",
-          "IEC61162-450 인터페이스 장치 개발 및 인증 주도 [3]"
+          "소형선박용 항해기록 장치 개발",
+          "IEC61162-450 인터페이스 장치 개발 및 인증 주도"
         ],
         "techStack": ["PHP", "Python", "Linux", "NMEA0183"]
       },
@@ -118,10 +116,10 @@
         "company": "현대이마린",
         "role": "조선IT융합개발1팀 과장",
         "period": "2013.09 ~ 2014.04",
-        "description": "SmartShip 솔루션 및 선박인터페이스 개발 [4]",
+        "description": "SmartShip 솔루션 및 선박인터페이스 개발",
         "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계 [4]",
-          "원격 모니터링 시스템 개발 및 유지보수 (현대중공업 등 납품) [4]"
+          "e-Navigation 관련 연구 개발 및 설계",
+          "원격 모니터링 시스템 개발 및 유지보수 (현대중공업 등 납품)"
         ],
         "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
       },
@@ -129,10 +127,10 @@
         "company": "현대비에스앤씨",
         "role": "조선IT융합연구소 과장",
         "period": "2010.12 ~ 2013.08",
-        "description": "선박 레이더 및 통합선교시스템(IBS) 사업 참여 [4]",
+        "description": "선박 레이더 및 통합선교시스템(IBS) 사업 참여",
         "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계 [4]",
-          "SmartShip 솔루션(선박인터페이스장치) 개발 [4]"
+          "e-Navigation 관련 연구 개발 및 설계",
+          "SmartShip 솔루션(선박인터페이스장치) 개발"
         ],
         "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
       }
@@ -286,7 +284,7 @@
         "major": "소프트웨어공학",
         "degree": "학사",
         "period": "2004.03 ~ 2006.02",
-        "description": "편입 및 졸업 (학점 3.57/4.5) [5, 7]"
+        "description": "편입 및 졸업 (학점 3.57/4.5)"
       }
     ]
   },
@@ -339,6 +337,24 @@
         "platform": "Netlify",
         "isNew": false
       }
-    ]
+    ],
+    "internalTools": {
+      "title": "Internal Tools",
+      "description": "업무용으로 제작한 내부 도구입니다.",
+      "items": [
+        {
+          "id": "mallReport",
+          "title": "자사몰 매출 확인",
+          "description": "자사몰의 실시간 매출 현황을 조회하고 분석하는 도구입니다.",
+          "icon": "ShoppingCart"
+        },
+        {
+          "id": "addressMap",
+          "title": "주소 좌표 변환",
+          "description": "주소를 입력하면 위도/경도 좌표로 변환하고 지도에 표시합니다.",
+          "icon": "MapPin"
+        }
+      ]
+    }
   }
 }

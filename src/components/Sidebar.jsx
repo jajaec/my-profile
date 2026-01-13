@@ -7,18 +7,13 @@ import {
   FolderGit2,
   GraduationCap,
   Award,
-  Github,
-  Linkedin,
   Mail,
-  Globe,
   Sun,
   Moon,
   Menu,
   X,
-  ChevronRight,
   Rocket,
-  ShoppingCart,
-  MapPin,
+  Bookmark,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { getDriveUrl } from '../utils/helpers';
@@ -28,11 +23,10 @@ const menuItems = [
   { id: 'techStack', label: 'Tech Stack', icon: Code2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
-  { id: 'webApps', label: 'Live Demo', icon: Rocket },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'certifications', label: 'Certifications', icon: Award },
-  { id: 'mallReport', label: '자사몰 매출 확인', icon: ShoppingCart },
-  { id: 'addressMap', label: '주소 좌표 변환', icon: MapPin },
+  { id: 'webApps', label: 'Live Demo', icon: Rocket },
+  { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark },
 ];
 
 const Sidebar = ({ profile, activeSection, onSectionChange }) => {
@@ -54,55 +48,21 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
             className="profile-image"
           />
         </div>
-        <h1 className="profile-name">{profile.name}</h1>
+        <div className="profile-name-row">
+          <h1 className="profile-name">{profile.name}</h1>
+          {profile.email && (
+            <a
+              href={`mailto:${profile.email}`}
+              className="email-icon-link"
+              aria-label="Send Email"
+              title={profile.email}
+            >
+              <Mail size={18} />
+            </a>
+          )}
+        </div>
         <p className="profile-role">{profile.role}</p>
         <p className="profile-location">{profile.location}</p>
-      </div>
-
-      {/* Social Links */}
-      <div className="social-links">
-        {profile.social?.github && (
-          <a
-            href={profile.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="GitHub"
-          >
-            <Github size={18} />
-          </a>
-        )}
-        {profile.social?.linkedin && (
-          <a
-            href={profile.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="LinkedIn"
-          >
-            <Linkedin size={18} />
-          </a>
-        )}
-        {profile.social?.blog && (
-          <a
-            href={profile.social.blog}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-            aria-label="Blog"
-          >
-            <Globe size={18} />
-          </a>
-        )}
-        {profile.social?.email && (
-          <a
-            href={`mailto:${profile.social.email}`}
-            className="social-link"
-            aria-label="Email"
-          >
-            <Mail size={18} />
-          </a>
-        )}
       </div>
 
       {/* Navigation Menu */}
@@ -143,6 +103,18 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
           {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
         </button>
+        
+        {/* Made with Antigravity */}
+        <a 
+          href="https://antigravity.google/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="made-with"
+        >
+          <span className="made-with-text">Built with</span>
+          <span className="antigravity-icon">🚀</span>
+          <span className="antigravity-name">Antigravity</span>
+        </a>
       </div>
     </>
   );
@@ -253,11 +225,33 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
           object-fit: cover;
         }
 
+        .profile-name-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-bottom: 4px;
+        }
+
         .profile-name {
           font-size: 1.25rem;
           font-weight: 700;
           color: var(--text-primary);
-          margin-bottom: 4px;
+          margin: 0;
+        }
+
+        .email-icon-link {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent-blue);
+          transition: all 0.2s ease;
+          margin-left: 4px;
+        }
+
+        .email-icon-link:hover {
+          color: var(--text-primary);
+          transform: scale(1.1);
         }
 
         .profile-role {
@@ -270,33 +264,6 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
         .profile-location {
           font-size: 0.75rem;
           color: var(--text-secondary);
-        }
-
-        .social-links {
-          display: flex;
-          justify-content: center;
-          gap: 8px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid var(--border-light);
-          margin-bottom: 20px;
-        }
-
-        .social-link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 36px;
-          height: 36px;
-          border-radius: 8px;
-          background: var(--bg-tertiary);
-          color: var(--text-secondary);
-          transition: all 0.2s ease;
-        }
-
-        .social-link:hover {
-          background: var(--accent-blue);
-          color: white;
-          transform: translateY(-2px);
         }
 
         .sidebar-nav {
@@ -370,6 +337,40 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
         .theme-toggle:hover {
           background: var(--bg-hover);
           color: var(--text-primary);
+        }
+
+        .made-with {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 4px;
+          padding-top: 10px;
+          margin-top: 10px;
+          border-top: 1px solid var(--border-light);
+          text-decoration: none;
+          transition: opacity 0.2s ease;
+        }
+
+        .made-with:hover {
+          opacity: 0.8;
+        }
+
+        .made-with-text {
+          font-size: 0.65rem;
+          color: var(--text-tertiary);
+        }
+
+        .antigravity-icon {
+          font-size: 0.7rem;
+        }
+
+        .antigravity-name {
+          font-size: 0.7rem;
+          background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 600;
         }
 
         @media (max-width: 768px) {
