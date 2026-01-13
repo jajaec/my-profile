@@ -1,31 +1,40 @@
 {
   "profile": {
     "name": "김정렴",
-    "role": "DX Expert & IT Team Leader",
-    "email": "jajaec1025@gmail.com",
-    "phone": "010-3589-4453",
-    "location": "경기 안산시, 대한민국",
-    "bio": "AI 기반 개발 역량과 전략적 리더십을 겸비한 18년 경력의 DX 전문가입니다.",
-    "profileImage": "https://lh3.googleusercontent.com/d/1IdByzECB6vYDz8TjK5SrlmTqEdHQ4ukD",
+    "role": "Senior Software Engineer",
+    "email": "developer@example.com",
+    "phone": "010-1234-5678",
+    "location": "서울, 대한민국",
+    "bio": "10년차 IT 소프트웨어 개발자로서 다양한 엔터프라이즈 시스템 개발 및 운영 경험을 보유하고 있습니다. 레거시 시스템 현대화와 DevOps 문화 정착에 관심이 많으며, 효율적인 개발 프로세스 구축을 추구합니다.",
+    "drivePhotoId": "",
+    "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
     "social": {
-      "github": "https://github.com/jajaec",
-      "email": "jajaec1025@gmail.com"
+      "github": "https://github.com/username",
+      "linkedin": "https://linkedin.com/in/username",
+      "blog": "https://blog.example.com",
+      "email": "developer@example.com"
     }
   },
   "about": {
     "title": "About Me",
     "blocks": [
-      { "type": "heading", "value": "간략 소개" },
-      { "type": "text", "value": "AI 기반 개발 역량과 전략적 리더십을 겸비한 DX 전문가." },
-      { "type": "text", "value": "다양한 개발 언어(C#, Python, Rust, VB6.0, PHP 등)와 다수의 도메인 경험을 바탕으로 IT 아키텍처 설계부터 조직 관리까지 전 영역을 주도." },
-      { "type": "text", "value": "현재는 정보관리팀 팀장으로서 AI와 자동화(RPA) 기술을 활용해 전사 IT 혁신과 업무 생산성 향상에 기여." },
-      { "type": "heading", "value": "핵심 역량" },
-      { "type": "list", "items": [
-        "AI·자동화(RPA) 기반 개발 및 DX 추진 경험",
-        "다양한 프로그래밍 언어(C#, Python, Rust, VB6.0, PHP) 활용",
-        "전사 IT 혁신 및 업무 생산성 향상 리더십",
-        "다수의 도메인 프로젝트 수행 및 전략적 관리 경험"
-      ]}
+      {
+        "type": "text",
+        "value": "안녕하세요! 저는 IT 전산 분야에서 10년 이상의 경험을 쌓아온 소프트웨어 개발자입니다."
+      },
+      {
+        "type": "text",
+        "value": "대규모 엔터프라이즈 시스템부터 스타트업의 민첩한 개발 환경까지, 다양한 프로젝트에서 핵심적인 역할을 수행해왔습니다. 특히 레거시 시스템 현대화, 마이크로서비스 아키텍처 전환, 그리고 DevOps 문화 도입에 깊은 전문성을 보유하고 있습니다."
+      },
+      {
+        "type": "callout",
+        "icon": "💡",
+        "value": "\"복잡한 문제를 단순하게, 단순한 것을 아름답게\" - 이것이 제 개발 철학입니다."
+      },
+      {
+        "type": "text",
+        "value": "새로운 기술을 배우는 것에 열정적이며, 팀원들과 지식을 공유하고 함께 성장하는 것을 좋아합니다. 사용자 경험을 최우선으로 생각하며, 비즈니스 가치를 창출하는 기술 솔루션을 만드는 것에 보람을 느낍니다."
+      }
     ]
   },
   "techStack": {
@@ -35,42 +44,68 @@
         "name": "Languages",
         "icon": "Code2",
         "items": [
-          { "name": "C#", "level": 90 },
+          { "name": "JavaScript", "level": 95 },
+          { "name": "TypeScript", "level": 90 },
           { "name": "Python", "level": 85 },
-          { "name": "Rust", "level": 70 },
-          { "name": "PHP", "level": 80 },
-          { "name": "VB6.0", "level": 80 }
+          { "name": "Java", "level": 80 },
+          { "name": "C#", "level": 75 },
+          { "name": "Go", "level": 60 }
+        ]
+      },
+      {
+        "name": "Frontend",
+        "icon": "Layout",
+        "items": [
+          { "name": "React", "level": 95 },
+          { "name": "Vue.js", "level": 85 },
+          { "name": "Next.js", "level": 90 },
+          { "name": "Tailwind CSS", "level": 90 },
+          { "name": "Redux", "level": 85 }
+        ]
+      },
+      {
+        "name": "Backend",
+        "icon": "Server",
+        "items": [
+          { "name": "Node.js", "level": 90 },
+          { "name": "Spring Boot", "level": 80 },
+          { "name": "FastAPI", "level": 85 },
+          { "name": "Express.js", "level": 90 },
+          { "name": "GraphQL", "level": 75 }
         ]
       },
       {
         "name": "Database",
         "icon": "Database",
         "items": [
-          { "name": "MSSQL", "level": 90 },
-          { "name": "DB2", "level": 80 },
-          { "name": "MSSQL", "level": 85 },
-          { "name": "PostgreSQL", "level": 75 },
-          { "name": "Oracle", "level": 80 }
+          { "name": "PostgreSQL", "level": 90 },
+          { "name": "MySQL", "level": 85 },
+          { "name": "MongoDB", "level": 80 },
+          { "name": "Redis", "level": 85 },
+          { "name": "Elasticsearch", "level": 70 }
         ]
       },
       {
-        "name": "AI & Automation",
+        "name": "AI & ML",
         "icon": "Brain",
-        "items": [          
-          { "name": "MS Power Automate", "level": 90 },
-          { "name": "RPA Workflow Design", "level": 85 },
-          { "name": "Google GenAI", "level": 85 },
-          { "name": "AI Vibe Coding", "level": 90 },
-          { "name": "AI Literacy", "level": 85 }
+        "items": [
+          { "name": "Google Gemini API", "level": 90 },
+          { "name": "OpenAI API", "level": 85 },
+          { "name": "TensorFlow", "level": 75 },
+          { "name": "PyTorch", "level": 70 },
+          { "name": "LangChain", "level": 80 },
+          { "name": "RAG Systems", "level": 85 }
         ]
       },
       {
-        "name": "Management",
-        "icon": "Layout",
+        "name": "Tools",
+        "icon": "Wrench",
         "items": [
-          { "name": "IT Strategy & PM", "level": 95 },
-          { "name": "ERP Development", "level": 90 },
-          { "name": "Architecture Design", "level": 85 }
+          { "name": "Git", "level": 95 },
+          { "name": "VS Code", "level": 95 },
+          { "name": "Jira", "level": 85 },
+          { "name": "Figma", "level": 70 },
+          { "name": "Postman", "level": 90 }
         ]
       }
     ]
@@ -79,62 +114,43 @@
     "title": "Experience",
     "items": [
       {
-        "company": "로얄앤컴퍼니",
-        "role": "정보관리팀 팀장",
-        "period": "2018.03 ~ 현재",
-        "description": "전사 IT 혁신 및 디지털 전환(DX) 주도 [2]",
+        "company": "테크놀로지 주식회사",
+        "role": "Senior Software Engineer",
+        "period": "2021.03 ~ 현재",
+        "description": "금융 서비스 플랫폼 개발 및 운영",
         "tasks": [
-          "정보관리팀 인력 및 프로젝트 관리, 영업(B2C) 및 업무자동화 개발 [2]",
-          "자체 ERP 개발 및 운영, 인사/회계(더존) ERP 운영 [2]",
-          "AI(GenAI) 기반 고객지원 챗봇 및 품질검사 프로그램 개발 [2]",
-          "MS Power Automate를 활용한 전사 RPA 과제 적용 [2]"
+          "마이크로서비스 아키텍처 기반 결제 시스템 설계 및 구현",
+          "일 평균 100만 건 이상의 트랜잭션 처리 시스템 최적화",
+          "레거시 모놀리식 시스템의 점진적 마이그레이션 주도",
+          "주니어 개발자 멘토링 및 코드 리뷰 프로세스 정립"
         ],
-        "techStack": ["C#", "Python", "Power Automate", "MSSQL", "DB2"]
+        "techStack": ["React", "Node.js", "PostgreSQL", "Redis", "AWS", "Docker"]
       },
       {
-        "company": "청림엔지니어링",
-        "role": "전산제어팀 과장",
-        "period": "2017.05 ~ 2018.02",
-        "description": "자동차 부품 검사 및 제어 시스템 개발 [3]",
+        "company": "스마트솔루션 Inc.",
+        "role": "Full-Stack Developer",
+        "period": "2018.01 ~ 2021.02",
+        "description": "B2B SaaS 플랫폼 개발",
         "tasks": [
-          "CPM 비젼 시스템 유지보수 (현대모비스) [3]",
-          "FEM 헤드램프 장착 시스템 및 FCA 유닛 검사 시스템 개발 [3]",
-          "Serial 통신 기반 컨트롤 시스템 개발 [3]"
+          "CRM 시스템 프론트엔드/백엔드 전체 개발",
+          "RESTful API 설계 및 OpenAPI 문서화",
+          "실시간 알림 시스템 (WebSocket) 구현",
+          "CI/CD 파이프라인 구축 (Jenkins, Docker)"
         ],
-        "techStack": ["VB6.0", "C#", "AccessDB", "Serial통신"]
+        "techStack": ["Vue.js", "Spring Boot", "MySQL", "RabbitMQ", "Jenkins"]
       },
       {
-        "company": "마리타임레디오",
-        "role": "기술연구소 차장/팀장",
-        "period": "2014.07 ~ 2017.03",
-        "description": "e-Navigation 및 선박 네트워크 시스템 연구 개발 [3]",
+        "company": "IT시스템 그룹",
+        "role": "Software Developer",
+        "period": "2015.03 ~ 2017.12",
+        "description": "ERP 시스템 개발 및 유지보수",
         "tasks": [
-          "소형선박용 항해기록 장치 개발 [3]",
-          "IEC61162-450 인터페이스 장치 개발 및 인증 주도 [3]"
+          "생산관리 모듈 개발 및 성능 튜닝",
+          "레거시 VB 애플리케이션을 웹 기반으로 전환",
+          "Oracle DB 쿼리 최적화 및 리포트 개발",
+          "고객사 온사이트 기술 지원"
         ],
-        "techStack": ["PHP", "Python", "Linux", "NMEA0183"]
-      },
-      {
-        "company": "현대이마린",
-        "role": "조선IT융합개발1팀 과장",
-        "period": "2013.09 ~ 2014.04",
-        "description": "SmartShip 솔루션 및 선박인터페이스 개발 [4]",
-        "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계 [4]",
-          "원격 모니터링 시스템 개발 및 유지보수 (현대중공업 등 납품) [4]"
-        ],
-        "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
-      },
-      {
-        "company": "현대비에스앤씨",
-        "role": "조선IT융합연구소 과장",
-        "period": "2010.12 ~ 2013.08",
-        "description": "선박 레이더 및 통합선교시스템(IBS) 사업 참여 [4]",
-        "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계 [4]",
-          "SmartShip 솔루션(선박인터페이스장치) 개발 [4]"
-        ],
-        "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
+        "techStack": ["C#", ".NET", "Oracle", "JavaScript", "jQuery"]
       }
     ]
   },
@@ -282,25 +298,45 @@
     "title": "Education",
     "items": [
       {
-        "school": "동의대학교",
-        "major": "소프트웨어공학",
+        "school": "한국대학교",
+        "major": "컴퓨터공학과",
         "degree": "학사",
-        "period": "2004.03 ~ 2006.02",
-        "description": "편입 및 졸업 (학점 3.57/4.5) [5, 7]"
+        "period": "2011.03 ~ 2015.02",
+        "description": "소프트웨어 공학, 데이터베이스, 알고리즘 전공"
       }
     ]
   },
   "certifications": {
     "title": "Certifications",
     "items": [
-      { "name": "정보처리기사", "issuer": "한국산업인력공단", "date": "2009.08", "icon": "💻" },
-      { "name": "3급 전자급통신사", "issuer": "해양수산부", "date": "2017.03", "icon": "⚓" },
-      { "name": "MCP (Microsoft SQL Server 등)", "issuer": "Microsoft", "date": "2003.05", "icon": "🪟" },
-      { "name": "소프트웨어교육지도사 1급", "issuer": "한국교육진흥협회", "date": "2019.04", "icon": "🎓" }
+      {
+        "name": "AWS Solutions Architect - Associate",
+        "issuer": "Amazon Web Services",
+        "date": "2023.06",
+        "icon": "☁️"
+      },
+      {
+        "name": "정보처리기사",
+        "issuer": "한국산업인력공단",
+        "date": "2015.05",
+        "icon": "📋"
+      },
+      {
+        "name": "SQLD (SQL Developer)",
+        "issuer": "한국데이터산업진흥원",
+        "date": "2016.09",
+        "icon": "🗄️"
+      },
+      {
+        "name": "Kubernetes Administrator (CKA)",
+        "issuer": "CNCF",
+        "date": "2024.01",
+        "icon": "⚙️"
+      }
     ]
   },
   "webApps": {
-    "title": "Live Demo",
+    "title": "Live Demo2",
     "description": "직접 제작하여 배포한 웹 애플리케이션들입니다. 카드를 클릭하면 새 창에서 실행됩니다.",
     "items": [
       {

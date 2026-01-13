@@ -1,21 +1,33 @@
 import { motion } from 'framer-motion';
-import BlockRenderer from '../BlockRenderer';
+import { Sparkles, Target, Code2, TrendingUp, Briefcase } from 'lucide-react';
 
-const AboutSection = ({ data, onMediaClick }) => {
+const AboutSection = ({ data }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
+
+  // 핵심 역량 아이콘 매핑
+  const competencyIcons = [
+    { icon: Sparkles, color: '#8b5cf6' },
+    { icon: Code2, color: '#3b82f6' },
+    { icon: TrendingUp, color: '#10b981' },
+    { icon: Briefcase, color: '#f59e0b' },
+  ];
+
+  // blocks에서 데이터 추출
+  const introTexts = data.blocks?.filter(b => b.type === 'text').map(b => b.value) || [];
+  const competencies = data.blocks?.find(b => b.type === 'list')?.items || [];
 
   return (
     <motion.section
@@ -29,19 +41,51 @@ const AboutSection = ({ data, onMediaClick }) => {
         {data.title}
       </motion.h2>
 
-      <motion.div className="about-content" variants={itemVariants}>
-        {data.blocks?.map((block, idx) => (
-          <BlockRenderer
-            key={idx}
-            block={block}
-            onMediaClick={onMediaClick}
-          />
-        ))}
+      {/* 간략 소개 카드 */}
+      <motion.div className="intro-card" variants={itemVariants}>
+        <div className="intro-header">
+          <div className="intro-icon-wrapper">
+            <Sparkles size={24} />
+          </div>
+          <h3 className="intro-title">간략 소개</h3>
+        </div>
+        <div className="intro-content">
+          {introTexts.map((text, idx) => (
+            <p key={idx} className="intro-text">{text}</p>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* 핵심 역량 섹션 */}
+      <motion.div className="competency-section" variants={itemVariants}>
+        <div className="competency-header">
+          <Target size={22} />
+          <h3 className="competency-title">핵심 역량</h3>
+        </div>
+        <div className="competency-grid">
+          {competencies.map((item, idx) => {
+            const IconComponent = competencyIcons[idx % competencyIcons.length].icon;
+            const iconColor = competencyIcons[idx % competencyIcons.length].color;
+            return (
+              <motion.div
+                key={idx}
+                className="competency-card"
+                whileHover={{ scale: 1.02, y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="competency-icon" style={{ background: `${iconColor}15`, color: iconColor }}>
+                  <IconComponent size={20} />
+                </div>
+                <span className="competency-text">{item}</span>
+              </motion.div>
+            );
+          })}
+        </div>
       </motion.div>
 
       <style>{`
         .about-section {
-          max-width: 800px;
+          max-width: 900px;
         }
 
         .section-title {
@@ -51,7 +95,7 @@ const AboutSection = ({ data, onMediaClick }) => {
           font-size: 1.75rem;
           font-weight: 700;
           color: var(--text-primary);
-          margin-bottom: 24px;
+          margin-bottom: 28px;
           padding-bottom: 12px;
           border-bottom: 1px solid var(--border-light);
         }
@@ -60,8 +104,148 @@ const AboutSection = ({ data, onMediaClick }) => {
           font-size: 1.5rem;
         }
 
-        .about-content {
-          padding: 8px 0;
+        /* 간략 소개 카드 */
+        .intro-card {
+          background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+          border: 1px solid var(--border-light);
+          border-radius: 16px;
+          padding: 28px;
+          margin-bottom: 24px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .intro-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981);
+        }
+
+        .intro-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 20px;
+        }
+
+        .intro-icon-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          background: linear-gradient(135deg, #8b5cf6, #6366f1);
+          border-radius: 12px;
+          color: white;
+        }
+
+        .intro-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: var(--text-primary);
+          margin: 0;
+        }
+
+        .intro-content {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .intro-text {
+          font-size: 1rem;
+          line-height: 1.8;
+          color: var(--text-secondary);
+          margin: 0;
+          padding-left: 16px;
+          border-left: 3px solid var(--accent-blue);
+        }
+
+        .intro-text:first-child {
+          font-size: 1.1rem;
+          color: var(--text-primary);
+          font-weight: 500;
+          border-left-color: #8b5cf6;
+        }
+
+        /* 핵심 역량 섹션 */
+        .competency-section {
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-light);
+          border-radius: 16px;
+          padding: 28px;
+        }
+
+        .competency-header {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 20px;
+          color: var(--text-primary);
+        }
+
+        .competency-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .competency-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 16px;
+        }
+
+        .competency-card {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 18px 20px;
+          background: var(--bg-primary);
+          border: 1px solid var(--border-light);
+          border-radius: 12px;
+          cursor: default;
+          transition: all 0.2s ease;
+        }
+
+        .competency-card:hover {
+          border-color: var(--accent-blue);
+          box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .competency-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          flex-shrink: 0;
+        }
+
+        .competency-text {
+          font-size: 0.95rem;
+          font-weight: 500;
+          color: var(--text-primary);
+          line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+          .intro-card, .competency-section {
+            padding: 20px;
+          }
+
+          .competency-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .intro-text {
+            padding-left: 12px;
+          }
         }
       `}</style>
     </motion.section>

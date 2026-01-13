@@ -28,7 +28,7 @@ const menuItems = [
   { id: 'techStack', label: 'Tech Stack', icon: Code2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
-  { id: 'webApps', label: 'Live Demo2', icon: Rocket },
+  { id: 'webApps', label: 'Live Demo', icon: Rocket },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'certifications', label: 'Certifications', icon: Award },
   { id: 'mallReport', label: '자사몰 매출 확인', icon: ShoppingCart },
