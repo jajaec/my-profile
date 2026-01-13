@@ -12,6 +12,8 @@ import ProjectsSection from './components/sections/ProjectsSection';
 import WebAppsSection from './components/sections/WebAppsSection';
 import EducationSection from './components/sections/EducationSection';
 import CertificationsSection from './components/sections/CertificationsSection';
+import MallReportSection from './components/sections/MallReportSection';
+import AddressMapSection from './components/sections/AddressMapSection';
 
 import data from './data.json';
 
@@ -52,6 +54,10 @@ function AppContent() {
         return <EducationSection data={data.education} />;
       case 'certifications':
         return <CertificationsSection data={data.certifications} />;
+      case 'mallReport':
+        return <MallReportSection />;
+      case 'addressMap':
+        return <AddressMapSection />;
       default:
         return <AboutSection data={data.about} {...sectionProps} />;
     }
