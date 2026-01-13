@@ -336,7 +336,7 @@
     ]
   },
   "webApps": {
-    "title": "Live Demo",
+    "title": "Live Demo1",
     "description": "직접 제작하여 배포한 웹 애플리케이션들입니다. 카드를 클릭하면 새 창에서 실행됩니다.",
     "items": [
       {

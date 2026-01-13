@@ -26,7 +26,7 @@ const menuItems = [
   { id: 'techStack', label: 'Tech Stack', icon: Code2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
-  { id: 'webApps', label: 'Live Demo', icon: Rocket },
+  { id: 'webApps', label: 'Live Demo1', icon: Rocket },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'certifications', label: 'Certifications', icon: Award },
 ];
