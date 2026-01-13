@@ -6,5 +6,5 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   // GitHub Pages 배포 시 base 경로 설정
-  // base: '/my-profile/',
+  base: '/my-profile/',
 })
