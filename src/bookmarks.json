@@ -8,19 +8,29 @@
       "color": "#8b5cf6",
       "items": [
         {
-          "title": "ChatGPT",
-          "url": "https://chat.openai.com",
-          "description": "OpenAI의 대화형 AI"
+          "title": "Google Gemini",
+          "url": "https://gemini.google.com/",
+          "description": "Google의 대화형 AI"
         },
         {
-          "title": "Claude",
-          "url": "https://claude.ai",
-          "description": "Anthropic의 AI 어시스턴트"
+          "title": "Google NotebookLM",
+          "url": "https://notebooklm.google.com/",
+          "description": "특정 문서 기반의 연구 분석 AI 도구"
         },
         {
           "title": "Google AI Studio",
           "url": "https://aistudio.google.com",
-          "description": "Google Gemini API 테스트"
+          "description": "Google의 AI 모델 테스트 및 개발 플랫폼"
+        },        
+        {
+          "title": "Google Labs",
+          "url": "https://labs.google/",
+          "description": "Google의 실험적인 AI 기술을 확인할 수 있는 플랫폼"
+        },
+        {
+          "title": "ChatGPT",
+          "url": "https://chat.openai.com",
+          "description": "OpenAI의 대화형 AI"
         },
         {
           "title": "Hugging Face",
@@ -30,41 +40,14 @@
       ]
     },
     {
-      "name": "Development",
-      "icon": "Code2",
-      "color": "#3b82f6",
-      "items": [
-        {
-          "title": "GitHub",
-          "url": "https://github.com",
-          "description": "코드 저장소 및 협업 플랫폼"
-        },
-        {
-          "title": "Stack Overflow",
-          "url": "https://stackoverflow.com",
-          "description": "개발자 Q&A 커뮤니티"
-        },
-        {
-          "title": "MDN Web Docs",
-          "url": "https://developer.mozilla.org",
-          "description": "웹 기술 문서"
-        },
-        {
-          "title": "npm",
-          "url": "https://www.npmjs.com",
-          "description": "Node.js 패키지 저장소"
-        }
-      ]
-    },
-    {
       "name": "Design & UI",
       "icon": "Palette",
       "color": "#ec4899",
       "items": [
         {
-          "title": "Dribbble",
-          "url": "https://dribbble.com",
-          "description": "디자인 영감 및 포트폴리오"
+          "title": "나노바나나 프로 레시피북",
+          "url": "https://www.canva.com/design/DAG6_Zjwl_w/dJuYhdifXpdMFQ3hTSprSw/view#1",
+          "description": "나노바나나 프로 레시피북"
         },
         {
           "title": "Figma",
@@ -80,6 +63,38 @@
           "title": "Lucide Icons",
           "url": "https://lucide.dev",
           "description": "오픈소스 아이콘 라이브러리"
+        },
+        {
+          "title": "Spline",
+          "url": "https://spline.design/3d-design",
+          "description": "3D 디자인"
+        }
+      ]
+    },
+    {
+      "name": "Development",
+      "icon": "Code2",
+      "color": "#3b82f6",
+      "items": [
+        {
+          "title": "GitHub",
+          "url": "https://github.com",
+          "description": "코드 저장소 및 협업 플랫폼"
+        },
+        {
+          "title": "Kakao Developers",
+          "url": "https://developers.kakao.com/",
+          "description": "카카오 개발자 커뮤니티"
+        },
+        {
+          "title": "공공데이터포털",
+          "url": "https://data.go.kr",
+          "description": "OpenAI 서비스를 통한 공공데이터 통합 제공"
+        },
+        {
+          "title": "국가법령정보 공동활용",
+          "url": "https://open.law.go.kr/",
+          "description": "OpenAI 서비스를 통한 법령정보 공동활용"
         }
       ]
     },
@@ -89,14 +104,9 @@
       "color": "#f59e0b",
       "items": [
         {
-          "title": "Notion",
-          "url": "https://www.notion.so",
-          "description": "올인원 워크스페이스"
-        },
-        {
-          "title": "Trello",
-          "url": "https://trello.com",
-          "description": "프로젝트 관리 보드"
+          "title": "Microsoft 365",
+          "url": "https://m365.cloud.microsoft/apps/",
+          "description": "Microsoft 365 웹 애플리케이션"
         },
         {
           "title": "Google Drive",
@@ -111,8 +121,8 @@
       "color": "#10b981",
       "items": [
         {
-          "title": "Udemy",
-          "url": "https://www.udemy.com",
+          "title": "Inflearn",
+          "url": "https://www.inflearn.com/",
           "description": "온라인 강좌 플랫폼"
         },
         {
@@ -133,19 +143,14 @@
       "color": "#6366f1",
       "items": [
         {
-          "title": "Hacker News",
-          "url": "https://news.ycombinator.com",
-          "description": "테크 뉴스 커뮤니티"
+          "title": "ZDNet",
+          "url": "https://zdnet.co.kr/",
+          "description": "기술 뉴스 웹사이트"
         },
         {
-          "title": "Dev.to",
-          "url": "https://dev.to",
-          "description": "개발자 블로그 플랫폼"
-        },
-        {
-          "title": "Reddit r/programming",
-          "url": "https://www.reddit.com/r/programming",
-          "description": "프로그래밍 서브레딧"
+          "title": "Velog",
+          "url": "https://velog.io/",
+          "description": "개발자를 위한 기술 블로그"
         }
       ]
     }
