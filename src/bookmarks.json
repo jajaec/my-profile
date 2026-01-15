@@ -113,6 +113,12 @@
           "url": "https://drive.google.com",
           "description": "클라우드 스토리지"
         }
+        ,
+        {
+          "title": "Mermaid Live",
+          "url": "https://mermaid.live/",
+          "description": "Markdown 스타일의 텍스트 정의로 다이어그램을 생성·수정 도구"
+        }
       ]
     },
     {

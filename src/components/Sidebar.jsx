@@ -14,6 +14,7 @@ import {
   X,
   Rocket,
   Bookmark,
+  Library,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { getDriveUrl } from '../utils/helpers';
@@ -25,6 +26,7 @@ const menuItems = [
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'certifications', label: 'Certifications', icon: Award },
+  { id: 'resources', label: 'Resources', icon: Library },
   { id: 'webApps', label: 'Live Demo', icon: Rocket },
   { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark },
 ];

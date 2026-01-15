@@ -13,16 +13,16 @@
   "about": {
     "title": "About Me",
     "blocks": [
-      { "type": "heading", "value": "간략 소개" },
-      { "type": "text", "value": "AI 기반 개발 역량과 전략적 리더십을 겸비한 DX 전문가." },
-      { "type": "text", "value": "다양한 개발 언어(C#, Python, Rust, VB6.0, PHP 등)와 다수의 도메인 경험을 바탕으로 IT 아키텍처 설계부터 조직 관리까지 전 영역을 주도." },
-      { "type": "text", "value": "현재는 정보관리팀 팀장으로서 AI와 자동화(RPA) 기술을 활용해 전사 IT 혁신과 업무 생산성 향상에 기여." },
-      { "type": "heading", "value": "핵심 역량" },
+      { "type": "heading", "value": "🎯 Professional Summary" },
+      { "type": "text", "value": "10년 이상의 IT 경험을 바탕으로 AI 기술과 DX(디지털 전환) 전략을 주도하는 IT 전문가입니다." },
+      { "type": "text", "value": "전사 ERP 시스템 운영 및 고도화를 총괄하며, C#, Python, Rust, PHP 등 다양한 언어와 도메인 경험을 통해 아키텍처 설계부터 서비스 운영까지 Full Cycle 개발 역량을 보유하고 있습니다." },
+      { "type": "text", "value": "AI·RPA 기반 업무 자동화로 전사 생산성 향상을 이끌고 있습니다." },
+      { "type": "heading", "value": "💡 Core Competencies" },
       { "type": "list", "items": [
-        "AI·자동화(RPA) 기반 개발 및 DX 추진 경험",
-        "다양한 프로그래밍 언어(C#, Python, Rust, VB6.0, PHP) 활용",
-        "전사 IT 혁신 및 업무 생산성 향상 리더십",
-        "다수의 도메인 프로젝트 수행 및 전략적 관리 경험"
+        "AI & Automation — Gemini, GPT, RPA를 활용한 업무 자동화 및 AI 솔루션 개발",
+        "AI Vibe Coding — Cursor, Antigravity 등 AI 코딩 도구를 활용한 고속 개발",
+        "DX Strategy & Leadership — IT 혁신 로드맵 수립 및 조직 디지털 전환 주도",
+        "Full-Stack Development — C#, Python, Rust, PHP 기반 엔터프라이즈 시스템 구축"
       ]}
     ]
   },
@@ -82,12 +82,13 @@
         "period": "2018.03 ~ 현재",
         "description": "전사 IT 혁신 및 디지털 전환(DX) 주도",
         "tasks": [
-          "정보관리팀 인력 및 프로젝트 관리, 영업(B2C) 및 업무자동화 개발",
-          "자체 ERP 개발 및 운영, 인사/회계(더존) ERP 운영",
-          "AI(GenAI) 기반 고객지원 챗봇 및 품질검사 프로그램 개발",
-          "MS Power Automate를 활용한 전사 RPA 과제 적용"
+          "IT 인력 및 프로젝트 관리, 영업(B2C) 및 업무자동화 개발",
+          "자체 ERP 개발 및 운영, 더존 ERP 운영 (인사/회계)",
+          "매장용 SW개발 및 운영 (주문결제시스템 개발, POS시스템 관리)",
+          "MS Power Automate를 활용한 전사 RPA 과제 적용",
+          "AI(GenAI) 기반 고객지원 챗봇 및 품질검사 프로그램 개발"          
         ],
-        "techStack": ["C#", "Python", "Power Automate", "MSSQL", "DB2"]
+        "techStack": ["C#", "Python","MSSQL", "DB2", "Power Automate", "AI (Google GenAI, Antigravity)"]
       },
       {
         "company": "청림엔지니어링",
@@ -95,22 +96,24 @@
         "period": "2017.05 ~ 2018.02",
         "description": "자동차 부품 검사 및 제어 시스템 개발",
         "tasks": [
-          "CPM 비젼 시스템 유지보수 (현대모비스)",
-          "FEM 헤드램프 장착 시스템 및 FCA 유닛 검사 시스템 개발",
+          "CPM 비젼 시스템 유지보수",
+          "FEM 헤드램프 장착 시스템 개발",
+          "FCA 유닛 검사 시스템 개발",
           "Serial 통신 기반 컨트롤 시스템 개발"
         ],
         "techStack": ["VB6.0", "C#", "AccessDB", "Serial통신"]
       },
       {
         "company": "마리타임레디오",
-        "role": "기술연구소 차장/팀장",
+        "role": "기술연구소 팀장",
         "period": "2014.07 ~ 2017.03",
         "description": "e-Navigation 및 선박 네트워크 시스템 연구 개발",
         "tasks": [
-          "소형선박용 항해기록 장치 개발",
-          "IEC61162-450 인터페이스 장치 개발 및 인증 주도"
+          "e-Navigation 관련 연구 개발",
+          "IEC61162-450 인터페이스 장치 개발 및 인증 주도",
+          "소형선박용 항해기록 장치 개발"          
         ],
-        "techStack": ["PHP", "Python", "Linux", "NMEA0183"]
+        "techStack": ["PHP", "Python", "Linux", "NMEA0183", "IEC61162-450"]
       },
       {
         "company": "현대이마린",
@@ -118,10 +121,10 @@
         "period": "2013.09 ~ 2014.04",
         "description": "SmartShip 솔루션 및 선박인터페이스 개발",
         "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계",
-          "원격 모니터링 시스템 개발 및 유지보수 (현대중공업 등 납품)"
+          "e-Navigation 관련 연구 개발",
+          "SmartShip 솔루션(원격 모니터링시스템 / 선박인터페이스장치) 개발 및 유지보수 (약 200여척 적용)"
         ],
-        "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
+        "techStack": ["C#", "PHP", "Linux", "NMEA0183", "IEC61162-450"]
       },
       {
         "company": "현대비에스앤씨",
@@ -129,10 +132,11 @@
         "period": "2010.12 ~ 2013.08",
         "description": "선박 레이더 및 통합선교시스템(IBS) 사업 참여",
         "tasks": [
-          "e-Navigation 관련 연구 개발 및 설계",
-          "SmartShip 솔루션(선박인터페이스장치) 개발"
+          "e-Navigation 관련 연구 개발",
+          "선박 레이더 및 한국형 통합선교시스템(IBS:Integrated Bridge System) 사업 참여",
+          "SmartShip 솔루션(원격 모니터링시스템 / 선박인터페이스장치) 개발 및 유지보수"
         ],
-        "techStack": ["C#", "PHP", "Linux", "NMEA0183"]
+        "techStack": ["C#", "PHP", "Linux", "NMEA0183", "IEC61162-450"]
       }
     ]
   },
@@ -291,10 +295,11 @@
   "certifications": {
     "title": "Certifications",
     "items": [
-      { "name": "정보처리기사", "issuer": "한국산업인력공단", "date": "2009.08", "icon": "💻" },
+      { "name": "경영정보시각화능력", "issuer": "대한상공회의소", "date": "도전중", "icon": "💻" },
+      { "name": "소프트웨어교육지도사 1급", "issuer": "한국교육진흥협회", "date": "2019.04", "icon": "🎓" },
       { "name": "3급 전자급통신사", "issuer": "해양수산부", "date": "2017.03", "icon": "⚓" },
-      { "name": "MCP (Microsoft SQL Server 등)", "issuer": "Microsoft", "date": "2003.05", "icon": "🪟" },
-      { "name": "소프트웨어교육지도사 1급", "issuer": "한국교육진흥협회", "date": "2019.04", "icon": "🎓" }
+      { "name": "정보처리기사", "issuer": "한국산업인력공단", "date": "2009.08", "icon": "💻" },
+      { "name": "MCP (Microsoft SQL Server 등)", "issuer": "Microsoft", "date": "2003.05", "icon": "🪟" }      
     ]
   },
   "webApps": {

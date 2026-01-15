@@ -15,9 +15,11 @@ import CertificationsSection from './components/sections/CertificationsSection';
 import MallReportSection from './components/sections/MallReportSection';
 import AddressMapSection from './components/sections/AddressMapSection';
 import BookmarksSection from './components/sections/BookmarksSection';
+import ResourcesSection from './components/sections/ResourcesSection';
 
 import data from './data.json';
 import bookmarksData from './bookmarks.json';
+import resourcesData from './resources.json';
 
 import './App.css';
 
@@ -119,6 +121,8 @@ function AppContent() {
         return <EducationSection data={data.education} />;
       case 'certifications':
         return <CertificationsSection data={data.certifications} />;
+      case 'resources':
+        return <ResourcesSection data={resourcesData} />;
       case 'bookmarks':
         return <BookmarksSection data={bookmarksData} />;
       default:

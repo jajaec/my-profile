@@ -9,11 +9,8 @@ export const ThemeProvider = ({ children }) => {
     const savedTheme = localStorage.getItem('portfolio-theme');
     if (savedTheme) return savedTheme;
     
-    // 시스템 테마 감지
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+    // 기본값: Dark Mode
+    return 'dark';
   });
 
   useEffect(() => {
