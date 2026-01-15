@@ -20,9 +20,9 @@
       { "type": "heading", "value": "💡 Core Competencies" },
       { "type": "list", "items": [
         "AI & Automation — Gemini, GPT, RPA를 활용한 업무 자동화 및 AI 솔루션 개발",
-        "AI Vibe Coding — Cursor, Antigravity 등 AI 코딩 도구를 활용한 고속 개발",
+        "AI Vibe Coding — Antigravity, Cursor 등 AI 코딩 도구를 활용한 고속 개발",
         "DX Strategy & Leadership — IT 혁신 로드맵 수립 및 조직 디지털 전환 주도",
-        "Full-Stack Development — C#, Python, Rust, PHP 기반 엔터프라이즈 시스템 구축"
+        "Full-Stack Development — C#, PHP, Python, Rust 기반 엔터프라이즈 시스템 구축"
       ]}
     ]
   },
@@ -34,9 +34,9 @@
         "icon": "Code2",
         "items": [
           { "name": "C#", "level": 90 },
+          { "name": "PHP", "level": 90 },
           { "name": "Python", "level": 85 },
-          { "name": "Rust", "level": 70 },
-          { "name": "PHP", "level": 80 },
+          { "name": "Rust", "level": 70 },          
           { "name": "VB6.0", "level": 80 }
         ]
       },
@@ -45,10 +45,10 @@
         "icon": "Database",
         "items": [
           { "name": "MSSQL", "level": 90 },
-          { "name": "DB2", "level": 80 },
-          { "name": "MSSQL", "level": 85 },
+          { "name": "DB2", "level": 90 },
+          { "name": "MySQL", "level": 85 },
           { "name": "PostgreSQL", "level": 75 },
-          { "name": "Oracle", "level": 80 }
+          { "name": "Oracle", "level": 70 }
         ]
       },
       {
@@ -67,8 +67,8 @@
         "icon": "Layout",
         "items": [
           { "name": "IT Strategy & PM", "level": 95 },
-          { "name": "ERP Development", "level": 90 },
-          { "name": "Architecture Design", "level": 85 }
+          { "name": "Architecture Design", "level": 90 },
+          { "name": "ERP Development", "level": 85 }         
         ]
       }
     ]
@@ -288,7 +288,16 @@
         "major": "소프트웨어공학",
         "degree": "학사",
         "period": "2004.03 ~ 2006.02",
-        "description": "편입 및 졸업 (학점 3.57/4.5)"
+        "description": "편입 및 졸업 (학점 3.57/4.5)",
+        "type": "university"
+      },
+      {
+        "school": "KH 정보교육원",
+        "major": "C#",
+        "degree": "수료",
+        "period": "2003.03 ~ 2003.09",
+        "description": "C# 프로그래밍 및 MSSQL 데이터베이스 기술 교육",
+        "type": "academy"
       }
     ]
   },
@@ -310,28 +319,31 @@
         "title": "영수증 내역 스캔 앱",
         "description": "카메라 또는 이미지 영수증의 내역을 AI가 스캔하여 Google Sheets에 저장하는 웹 애플리케이션입니다. ",
         "url": "https://opal.google/?flow=drive:/1lNZOMwGXamPurjzzUPk_SRCRWinC94l7&shared&mode=app",
-        "thumbnail": "",
+        "thumbnail": "https://lh3.googleusercontent.com/d/18Fn_5lTxoAMkbREUiVZ1meNcLtfZFTsx",
         "techStack": ["Opal", "Google Gemini", "Google Sheets"],
         "platform": "Opal",
-        "isNew": false
+        "isNew": false,
+        "requiresLogin": true
       },
       {
         "title": "카드 뉴스 제작 앱",
         "description": "입력된 프롬프트를 기반으로 Google Gemini API를 활용하여 카드 뉴스를 생성하는 웹 애플리케이션입니다.",
         "url": "https://opal.google/?flow=drive:/1q1j8ssTeS_chnXQI1nEqeWpX-Q3UZzhq&shared&mode=app",
-        "thumbnail": "",
+        "thumbnail": "https://lh3.googleusercontent.com/d/1NWGwjxDkv8fkUjqmRcJlEH5CFo8DsA-a",
         "techStack": ["Opal", "Google Gemini"],
         "platform": "Opal",
-        "isNew": false
+        "isNew": false,
+        "requiresLogin": true
       },
       {
         "title": "유튜브 숏츠 제작 앱",
         "description": "입력된 프롬프트를 기반으로 Google Gemini API와 Veo API를 활용하여 유튜브 숏츠를 생성하는 웹 애플리케이션입니다.",
         "url": "https://opal.google/?flow=drive:/1cg1VaS-NerKaYwswgHRe4rHpRdFT0MXO&shared&mode=app",
-        "thumbnail": "",
+        "thumbnail": "https://lh3.googleusercontent.com/d/19LicrS0X16euTwIaP3r2qip0BLMqghU7",
         "techStack": ["Opal", "Google Gemini", "Veo"],
         "platform": "Opal",
-        "isNew": false
+        "isNew": false,
+        "requiresLogin": true
       }
     ],
     "internalTools": {

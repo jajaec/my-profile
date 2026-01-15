@@ -122,12 +122,20 @@ const WebAppsSection = ({ data }) => {
             <div className="webapp-content">
               <div className="webapp-header">
                 <h3 className="webapp-title">{app.title}</h3>
-                {app.isNew && (
-                  <span className="new-badge">
-                    <Sparkles size={12} />
-                    NEW
-                  </span>
-                )}
+                <div className="webapp-badges">
+                  {app.isNew && (
+                    <span className="new-badge">
+                      <Sparkles size={12} />
+                      NEW
+                    </span>
+                  )}
+                  {app.requiresLogin && (
+                    <span className="login-badge">
+                      <Lock size={12} />
+                      계정 필요
+                    </span>
+                  )}
+                </div>
               </div>
               
               <p className="webapp-description">{app.description}</p>
@@ -366,8 +374,9 @@ const WebAppsSection = ({ data }) => {
 
         .webapp-header {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: space-between;
+          gap: 8px;
           margin-bottom: 8px;
         }
 
@@ -375,6 +384,14 @@ const WebAppsSection = ({ data }) => {
           font-size: 1.1rem;
           font-weight: 600;
           color: var(--text-primary);
+          flex: 1;
+        }
+
+        .webapp-badges {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+          flex-shrink: 0;
         }
 
         .new-badge {
@@ -386,6 +403,18 @@ const WebAppsSection = ({ data }) => {
           color: white;
           font-size: 0.7rem;
           font-weight: 600;
+          border-radius: 4px;
+        }
+
+        .login-badge {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          padding: 2px 8px;
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          color: white;
+          font-size: 0.7rem;
+          font-weight: 500;
           border-radius: 4px;
         }
 

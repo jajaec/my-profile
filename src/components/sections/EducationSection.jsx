@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GraduationCap, Calendar } from 'lucide-react';
+import { GraduationCap, School, Calendar } from 'lucide-react';
 
 const EducationSection = ({ data }) => {
   const containerVariants = {
@@ -37,8 +37,8 @@ const EducationSection = ({ data }) => {
             variants={itemVariants}
             whileHover={{ y: -4, boxShadow: 'var(--shadow-md)' }}
           >
-            <div className="edu-icon-wrapper">
-              <GraduationCap size={24} />
+            <div className={`edu-icon-wrapper ${edu.type === 'academy' ? 'academy' : 'university'}`}>
+              {edu.type === 'academy' ? <School size={24} /> : <GraduationCap size={24} />}
             </div>
 
             <div className="edu-content">
@@ -105,6 +105,10 @@ const EducationSection = ({ data }) => {
           border-radius: 12px;
           color: white;
           flex-shrink: 0;
+        }
+
+        .edu-icon-wrapper.academy {
+          background: linear-gradient(135deg, #f59e0b, #ea580c);
         }
 
         .edu-content {
