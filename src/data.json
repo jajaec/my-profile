@@ -184,6 +184,166 @@
         }
       },
       {
+        "title": "전사 전산 시스템 고도화 프로젝트",
+        "period": "2023.01 ~ 2023.12",
+        "role": "Tech Lead",
+        "description": "10년된 레거시 시스템을 클라우드 네이티브 아키텍처로 전면 재구축하는 대규모 프로젝트",
+        "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Kubernetes"],
+        "blocks": [
+          {
+            "type": "heading",
+            "value": "프로젝트 개요"
+          },
+          {
+            "type": "text",
+            "value": "기존 모놀리식 아키텍처로 운영되던 전사 ERP 시스템을 마이크로서비스 기반의 클라우드 네이티브 아키텍처로 전환하는 프로젝트입니다."
+          },
+          {
+            "type": "heading",
+            "value": "주요 성과"
+          },
+          {
+            "type": "list",
+            "items": [
+              "시스템 응답 속도 40% 개선",
+              "인프라 비용 30% 절감",
+              "배포 주기 월 1회 → 일 5회로 단축",
+              "장애 복구 시간 4시간 → 30분으로 감소"
+            ]
+          },
+          {
+            "type": "image",
+            "value": "/images/system_architecture.png",
+            "caption": "마이크로서비스 아키텍처 다이어그램"
+          }
+        ],
+        "links": {
+          "github": "",
+          "demo": "",
+          "docs": ""
+        }
+      },
+      {
+        "title": "전사 전산 시스템 고도화 프로젝트",
+        "period": "2023.01 ~ 2023.12",
+        "role": "Tech Lead",
+        "description": "10년된 레거시 시스템을 클라우드 네이티브 아키텍처로 전면 재구축하는 대규모 프로젝트",
+        "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Kubernetes"],
+        "blocks": [
+          {
+            "type": "heading",
+            "value": "프로젝트 개요"
+          },
+          {
+            "type": "text",
+            "value": "기존 모놀리식 아키텍처로 운영되던 전사 ERP 시스템을 마이크로서비스 기반의 클라우드 네이티브 아키텍처로 전환하는 프로젝트입니다."
+          },
+          {
+            "type": "heading",
+            "value": "주요 성과"
+          },
+          {
+            "type": "list",
+            "items": [
+              "시스템 응답 속도 40% 개선",
+              "인프라 비용 30% 절감",
+              "배포 주기 월 1회 → 일 5회로 단축",
+              "장애 복구 시간 4시간 → 30분으로 감소"
+            ]
+          },
+          {
+            "type": "image",
+            "value": "/images/system_architecture.png",
+            "caption": "마이크로서비스 아키텍처 다이어그램"
+          }
+        ],
+        "links": {
+          "github": "",
+          "demo": "",
+          "docs": ""
+        }
+      },
+      {
+        "title": "전사 전산 시스템 고도화 프로젝트",
+        "period": "2023.01 ~ 2023.12",
+        "role": "Tech Lead",
+        "description": "10년된 레거시 시스템을 클라우드 네이티브 아키텍처로 전면 재구축하는 대규모 프로젝트",
+        "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Kubernetes"],
+        "blocks": [
+          {
+            "type": "heading",
+            "value": "프로젝트 개요"
+          },
+          {
+            "type": "text",
+            "value": "기존 모놀리식 아키텍처로 운영되던 전사 ERP 시스템을 마이크로서비스 기반의 클라우드 네이티브 아키텍처로 전환하는 프로젝트입니다."
+          },
+          {
+            "type": "heading",
+            "value": "주요 성과"
+          },
+          {
+            "type": "list",
+            "items": [
+              "시스템 응답 속도 40% 개선",
+              "인프라 비용 30% 절감",
+              "배포 주기 월 1회 → 일 5회로 단축",
+              "장애 복구 시간 4시간 → 30분으로 감소"
+            ]
+          },
+          {
+            "type": "image",
+            "value": "/images/system_architecture.png",
+            "caption": "마이크로서비스 아키텍처 다이어그램"
+          }
+        ],
+        "links": {
+          "github": "",
+          "demo": "",
+          "docs": ""
+        }
+      },
+      {
+        "title": "전사 전산 시스템 고도화 프로젝트",
+        "period": "2023.01 ~ 2023.12",
+        "role": "Tech Lead",
+        "description": "10년된 레거시 시스템을 클라우드 네이티브 아키텍처로 전면 재구축하는 대규모 프로젝트",
+        "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "AWS", "Kubernetes"],
+        "blocks": [
+          {
+            "type": "heading",
+            "value": "프로젝트 개요"
+          },
+          {
+            "type": "text",
+            "value": "기존 모놀리식 아키텍처로 운영되던 전사 ERP 시스템을 마이크로서비스 기반의 클라우드 네이티브 아키텍처로 전환하는 프로젝트입니다."
+          },
+          {
+            "type": "heading",
+            "value": "주요 성과"
+          },
+          {
+            "type": "list",
+            "items": [
+              "시스템 응답 속도 40% 개선",
+              "인프라 비용 30% 절감",
+              "배포 주기 월 1회 → 일 5회로 단축",
+              "장애 복구 시간 4시간 → 30분으로 감소"
+            ]
+          },
+          {
+            "type": "image",
+            "value": "/images/system_architecture.png",
+            "caption": "마이크로서비스 아키텍처 다이어그램"
+          }
+        ],
+        "links": {
+          "github": "",
+          "demo": "",
+          "docs": ""
+        }
+      },
+      {
         "title": "실시간 모니터링 대시보드",
         "period": "2022.06 ~ 2022.09",
         "role": "Full-Stack Developer",

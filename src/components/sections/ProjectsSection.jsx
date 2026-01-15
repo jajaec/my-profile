@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, User, ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { Calendar, User, ExternalLink, Github, ChevronRight, ChevronDown, X } from 'lucide-react';
 import BlockRenderer from '../BlockRenderer';
 
 const ProjectsSection = ({ data, onMediaClick }) => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const projectRefs = useRef([]);
+
+  // 화면 크기 감지
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -21,6 +31,90 @@ const ProjectsSection = ({ data, onMediaClick }) => {
     visible: { opacity: 1, y: 0 },
   };
 
+  const handleProjectClick = (idx) => {
+    const isOpening = selectedProject !== idx;
+    setSelectedProject(isOpening ? idx : null);
+    
+    // 모바일에서 상세 박스가 열릴 때 해당 카드를 화면 상단으로 스크롤
+    if (isOpening && isMobile && projectRefs.current[idx]) {
+      setTimeout(() => {
+        projectRefs.current[idx].scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 100);
+    }
+  };
+
+  const closeDetail = () => {
+    setSelectedProject(null);
+  };
+
+  // 모바일용 인라인 상세정보 컴포넌트
+  const MobileProjectDetail = ({ project, onClose }) => (
+    <motion.div
+      className="mobile-project-detail"
+      initial={{ height: 0, opacity: 0 }}
+      animate={{ height: 'auto', opacity: 1 }}
+      exit={{ height: 0, opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div className="mobile-detail-content">
+        <div className="detail-header">
+          <h3 className="detail-title">{project.title}</h3>
+          <button className="close-btn" onClick={onClose}>
+            <X size={18} />
+          </button>
+        </div>
+
+        {project.links && (
+          <div className="detail-links">
+            {project.links.github && (
+              <a
+                href={project.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="detail-link"
+              >
+                <Github size={16} />
+                GitHub
+              </a>
+            )}
+            {project.links.demo && (
+              <a
+                href={project.links.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="detail-link"
+              >
+                <ExternalLink size={16} />
+                Demo
+              </a>
+            )}
+          </div>
+        )}
+
+        <div className="detail-tech-stack">
+          {project.techStack?.map((tech, idx) => (
+            <span key={idx} className="tech-tag">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="detail-blocks">
+          {project.blocks?.map((block, idx) => (
+            <BlockRenderer
+              key={idx}
+              block={block}
+              onMediaClick={onMediaClick}
+            />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+
   return (
     <motion.section
       className="section projects-section"
@@ -33,125 +127,153 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         {data.title}
       </motion.h2>
 
-      <div className="projects-layout">
+      <div className={`projects-layout ${isMobile ? 'mobile' : ''}`}>
         {/* Project List */}
         <motion.div className="projects-list" variants={containerVariants}>
           {data.items?.map((project, idx) => (
-            <motion.div
-              key={idx}
-              className={`project-card ${selectedProject === idx ? 'selected' : ''}`}
-              variants={itemVariants}
-              whileHover={{ x: 4 }}
-              onClick={() => setSelectedProject(selectedProject === idx ? null : idx)}
+            <div 
+              key={idx} 
+              className="project-item-wrapper"
+              ref={el => projectRefs.current[idx] = el}
             >
-              <div className="project-card-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                
-                <div className="project-meta">
-                  <span className="meta-item">
-                    <Calendar size={14} />
-                    {project.period}
-                  </span>
-                  <span className="meta-item">
-                    <User size={14} />
-                    {project.role}
-                  </span>
-                </div>
+              <motion.div
+                className={`project-card ${selectedProject === idx ? 'selected' : ''}`}
+                variants={itemVariants}
+                whileHover={{ x: 4 }}
+                onClick={() => handleProjectClick(idx)}
+              >
+                <div className="project-card-content">
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-description">{project.description}</p>
+                  
+                  <div className="project-meta">
+                    <span className="meta-item">
+                      <Calendar size={14} />
+                      {project.period}
+                    </span>
+                    <span className="meta-item">
+                      <User size={14} />
+                      {project.role}
+                    </span>
+                  </div>
 
-                <div className="project-tech-preview">
-                  {project.techStack?.slice(0, 4).map((tech, techIdx) => (
-                    <span key={techIdx} className="tech-badge">
-                      {tech}
-                    </span>
-                  ))}
-                  {project.techStack?.length > 4 && (
-                    <span className="tech-badge more">
-                      +{project.techStack.length - 4}
-                    </span>
-                  )}
+                  <div className="project-tech-preview">
+                    {project.techStack?.slice(0, 4).map((tech, techIdx) => (
+                      <span key={techIdx} className="tech-badge">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.techStack?.length > 4 && (
+                      <span className="tech-badge more">
+                        +{project.techStack.length - 4}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-              
-              <ChevronRight 
-                size={18} 
-                className={`chevron-icon ${selectedProject === idx ? 'rotated' : ''}`}
-              />
-            </motion.div>
+                
+                {isMobile ? (
+                  <ChevronDown 
+                    size={18} 
+                    className={`chevron-icon ${selectedProject === idx ? 'rotated' : ''}`}
+                  />
+                ) : (
+                  <ChevronRight 
+                    size={18} 
+                    className={`chevron-icon ${selectedProject === idx ? 'rotated' : ''}`}
+                  />
+                )}
+              </motion.div>
+
+              {/* 모바일: 카드 바로 아래에 상세정보 표시 */}
+              {isMobile && (
+                <AnimatePresence>
+                  {selectedProject === idx && (
+                    <MobileProjectDetail 
+                      project={project} 
+                      onClose={closeDetail}
+                    />
+                  )}
+                </AnimatePresence>
+              )}
+            </div>
           ))}
         </motion.div>
 
-        {/* Project Detail */}
-        <AnimatePresence mode="wait">
-          {selectedProject !== null && (
-            <motion.div
-              key={selectedProject}
-              className="project-detail"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="detail-header">
-                <h3 className="detail-title">
-                  {data.items[selectedProject].title}
-                </h3>
-                
-                {data.items[selectedProject].links && (
-                  <div className="detail-links">
-                    {data.items[selectedProject].links.github && (
-                      <a
-                        href={data.items[selectedProject].links.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="detail-link"
-                      >
-                        <Github size={16} />
-                        GitHub
-                      </a>
-                    )}
-                    {data.items[selectedProject].links.demo && (
-                      <a
-                        href={data.items[selectedProject].links.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="detail-link"
-                      >
-                        <ExternalLink size={16} />
-                        Demo
-                      </a>
+        {/* 데스크톱: 오른쪽에 상세정보 표시 */}
+        {!isMobile && (
+          <>
+            <AnimatePresence mode="wait">
+              {selectedProject !== null && (
+                <motion.div
+                  key={selectedProject}
+                  className="project-detail"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="detail-header">
+                    <h3 className="detail-title">
+                      {data.items[selectedProject].title}
+                    </h3>
+                    
+                    {data.items[selectedProject].links && (
+                      <div className="detail-links">
+                        {data.items[selectedProject].links.github && (
+                          <a
+                            href={data.items[selectedProject].links.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="detail-link"
+                          >
+                            <Github size={16} />
+                            GitHub
+                          </a>
+                        )}
+                        {data.items[selectedProject].links.demo && (
+                          <a
+                            href={data.items[selectedProject].links.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="detail-link"
+                          >
+                            <ExternalLink size={16} />
+                            Demo
+                          </a>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
 
-              <div className="detail-tech-stack">
-                {data.items[selectedProject].techStack?.map((tech, idx) => (
-                  <span key={idx} className="tech-tag">
-                    {tech}
-                  </span>
-                ))}
-              </div>
+                  <div className="detail-tech-stack">
+                    {data.items[selectedProject].techStack?.map((tech, idx) => (
+                      <span key={idx} className="tech-tag">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
 
-              <div className="detail-blocks">
-                {data.items[selectedProject].blocks?.map((block, idx) => (
-                  <BlockRenderer
-                    key={idx}
-                    block={block}
-                    onMediaClick={onMediaClick}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  <div className="detail-blocks">
+                    {data.items[selectedProject].blocks?.map((block, idx) => (
+                      <BlockRenderer
+                        key={idx}
+                        block={block}
+                        onMediaClick={onMediaClick}
+                      />
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-        {/* Empty State */}
-        {selectedProject === null && (
-          <div className="project-empty">
-            <div className="empty-icon">📂</div>
-            <p>프로젝트를 선택하면 상세 내용을 볼 수 있습니다.</p>
-          </div>
+            {/* Empty State */}
+            {selectedProject === null && (
+              <div className="project-empty">
+                <div className="empty-icon">📂</div>
+                <p>프로젝트를 선택하면 상세 내용을 볼 수 있습니다.</p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -183,10 +305,19 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           min-height: 500px;
         }
 
+        .projects-layout.mobile {
+          display: block;
+        }
+
         .projects-list {
           display: flex;
           flex-direction: column;
           gap: 12px;
+        }
+
+        .project-item-wrapper {
+          display: flex;
+          flex-direction: column;
         }
 
         .project-card {
@@ -278,10 +409,11 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         .chevron-icon.rotated {
-          transform: rotate(90deg);
+          transform: rotate(180deg);
           color: var(--accent-blue);
         }
 
+        /* 데스크톱 상세정보 */
         .project-detail {
           background: var(--bg-secondary);
           border: 1px solid var(--border-light);
@@ -289,6 +421,23 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           padding: 24px;
           overflow-y: auto;
           max-height: 600px;
+          position: sticky;
+          top: 20px;
+        }
+
+        /* 모바일 인라인 상세정보 */
+        .mobile-project-detail {
+          overflow: hidden;
+          margin-top: 12px;
+          margin-bottom: 8px;
+        }
+
+        .mobile-detail-content {
+          padding: 20px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-light);
+          border-left: 4px solid var(--accent-blue);
+          border-radius: 10px;
         }
 
         .detail-header {
@@ -296,19 +445,36 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           justify-content: space-between;
           align-items: flex-start;
           margin-bottom: 16px;
-          padding-bottom: 16px;
+          padding-bottom: 12px;
           border-bottom: 1px solid var(--border-light);
         }
 
         .detail-title {
-          font-size: 1.25rem;
-          font-weight: 700;
+          font-size: 1.1rem;
+          font-weight: 600;
           color: var(--text-primary);
+        }
+
+        .close-btn {
+          background: var(--bg-tertiary);
+          border: 1px solid var(--border-light);
+          border-radius: 6px;
+          padding: 6px;
+          cursor: pointer;
+          color: var(--text-secondary);
+          transition: all 0.15s ease;
+        }
+
+        .close-btn:hover {
+          background: var(--accent-red);
+          color: white;
+          border-color: var(--accent-red);
         }
 
         .detail-links {
           display: flex;
           gap: 8px;
+          margin-bottom: 16px;
         }
 
         .detail-link {
@@ -333,7 +499,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
 
         .tech-tag {
@@ -346,7 +512,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         .detail-blocks {
-          margin-top: 16px;
+          margin-top: 12px;
         }
 
         .project-empty {
@@ -368,16 +534,13 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         @media (max-width: 1024px) {
-          .projects-layout {
-            grid-template-columns: 1fr;
+          .project-card.selected {
+            border-radius: 10px;
+            box-shadow: 0 0 0 2px var(--accent-blue);
           }
 
-          .project-detail {
-            max-height: none;
-          }
-
-          .project-empty {
-            display: none;
+          .chevron-icon.rotated {
+            transform: rotate(180deg);
           }
         }
       `}</style>
