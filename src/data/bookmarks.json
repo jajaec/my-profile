@@ -135,11 +135,6 @@
           "title": "YouTube",
           "url": "https://www.youtube.com",
           "description": "동영상 학습 및 튜토리얼"
-        },
-        {
-          "title": "freeCodeCamp",
-          "url": "https://www.freecodecamp.org",
-          "description": "무료 코딩 교육"
         }
       ]
     },
