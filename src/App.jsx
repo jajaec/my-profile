@@ -17,9 +17,11 @@ import AddressMapSection from './components/sections/AddressMapSection';
 import BookmarksSection from './components/sections/BookmarksSection';
 import ResourcesSection from './components/sections/ResourcesSection';
 
-import data from './data.json';
-import bookmarksData from './bookmarks.json';
-import resourcesData from './resources.json';
+import profileData from './data/profile.json';
+import careerData from './data/career.json';
+import liveDemoData from './data/liveDemo.json';
+import bookmarksData from './data/bookmarks.json';
+import resourcesData from './data/resources.json';
 
 import './App.css';
 
@@ -108,32 +110,32 @@ function AppContent() {
 
     switch (activeSection) {
       case 'about':
-        return <AboutSection data={data.about} {...sectionProps} />;
+        return <AboutSection data={profileData.about} {...sectionProps} />;
       case 'techStack':
-        return <TechStackSection data={data.techStack} />;
+        return <TechStackSection data={profileData.techStack} />;
       case 'experience':
-        return <ExperienceSection data={data.experience} />;
+        return <ExperienceSection data={careerData.experience} />;
       case 'projects':
-        return <ProjectsSection data={data.projects} {...sectionProps} />;
+        return <ProjectsSection data={careerData.projects} {...sectionProps} />;
       case 'webApps':
-        return <WebAppsSection data={data.webApps} />;
+        return <WebAppsSection data={liveDemoData} />;
       case 'education':
-        return <EducationSection data={data.education} />;
+        return <EducationSection data={profileData.education} />;
       case 'certifications':
-        return <CertificationsSection data={data.certifications} />;
+        return <CertificationsSection data={profileData.certifications} />;
       case 'resources':
         return <ResourcesSection data={resourcesData} />;
       case 'bookmarks':
         return <BookmarksSection data={bookmarksData} />;
       default:
-        return <AboutSection data={data.about} {...sectionProps} />;
+        return <AboutSection data={profileData.about} {...sectionProps} />;
     }
   };
 
   return (
     <div className="app-container">
       <Sidebar
-        profile={data.profile}
+        profile={profileData.profile}
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />

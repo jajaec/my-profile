@@ -1,0 +1,54 @@
+{
+  "title": "Live Demo",
+  "description": "직접 제작하여 배포한 웹 애플리케이션들입니다. 카드를 클릭하면 새 창에서 실행됩니다.",
+  "items": [
+    {
+      "title": "영수증 내역 스캔 앱",
+      "description": "카메라 또는 이미지 영수증의 내역을 AI가 스캔하여 Google Sheets에 저장하는 웹 애플리케이션입니다. ",
+      "url": "https://opal.google/?flow=drive:/1lNZOMwGXamPurjzzUPk_SRCRWinC94l7&shared&mode=app",
+      "thumbnail": "https://lh3.googleusercontent.com/d/18Fn_5lTxoAMkbREUiVZ1meNcLtfZFTsx",
+      "techStack": ["Opal", "Google Gemini", "Google Sheets"],
+      "platform": "Opal",
+      "isNew": false,
+      "requiresLogin": true
+    },
+    {
+      "title": "카드 뉴스 제작 앱",
+      "description": "입력된 프롬프트를 기반으로 Google Gemini API를 활용하여 카드 뉴스를 생성하는 웹 애플리케이션입니다.",
+      "url": "https://opal.google/?flow=drive:/1q1j8ssTeS_chnXQI1nEqeWpX-Q3UZzhq&shared&mode=app",
+      "thumbnail": "https://lh3.googleusercontent.com/d/1NWGwjxDkv8fkUjqmRcJlEH5CFo8DsA-a",
+      "techStack": ["Opal", "Google Gemini"],
+      "platform": "Opal",
+      "isNew": false,
+      "requiresLogin": true
+    },
+    {
+      "title": "유튜브 숏츠 제작 앱",
+      "description": "입력된 프롬프트를 기반으로 Google Gemini API와 Veo API를 활용하여 유튜브 숏츠를 생성하는 웹 애플리케이션입니다.",
+      "url": "https://opal.google/?flow=drive:/1cg1VaS-NerKaYwswgHRe4rHpRdFT0MXO&shared&mode=app",
+      "thumbnail": "https://lh3.googleusercontent.com/d/19LicrS0X16euTwIaP3r2qip0BLMqghU7",
+      "techStack": ["Opal", "Google Gemini", "Veo"],
+      "platform": "Opal",
+      "isNew": false,
+      "requiresLogin": true
+    }
+  ],
+  "internalTools": {
+    "title": "Internal Tools",
+    "description": "업무용으로 제작한 내부 도구입니다.",
+    "items": [
+      {
+        "id": "mallReport",
+        "title": "자사몰 매출 확인",
+        "description": "자사몰의 실시간 매출 현황을 조회하고 분석하는 도구입니다.",
+        "icon": "ShoppingCart"
+      },
+      {
+        "id": "addressMap",
+        "title": "주소 좌표 변환",
+        "description": "주소를 입력하면 위도/경도 좌표로 변환하고 지도에 표시합니다.",
+        "icon": "MapPin"
+      }
+    ]
+  }
+}

@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, User, ExternalLink, Github, ChevronRight, ChevronDown, X } from 'lucide-react';
+import { Calendar, User, ExternalLink, Github, ChevronRight, ChevronDown, X, Building2 } from 'lucide-react';
 import BlockRenderer from '../BlockRenderer';
 
 const ProjectsSection = ({ data, onMediaClick }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const projectRefs = useRef([]);
+  const detailRef = useRef(null);
 
   // 화면 크기 감지
   useEffect(() => {
@@ -35,14 +36,24 @@ const ProjectsSection = ({ data, onMediaClick }) => {
     const isOpening = selectedProject !== idx;
     setSelectedProject(isOpening ? idx : null);
     
-    // 모바일에서 상세 박스가 열릴 때 해당 카드를 화면 상단으로 스크롤
-    if (isOpening && isMobile && projectRefs.current[idx]) {
-      setTimeout(() => {
-        projectRefs.current[idx].scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
-        });
-      }, 100);
+    if (isOpening) {
+      if (isMobile && projectRefs.current[idx]) {
+        // 모바일: 해당 카드를 화면 상단으로 스크롤
+        setTimeout(() => {
+          projectRefs.current[idx].scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }, 100);
+      } else if (!isMobile && detailRef.current) {
+        // 데스크톱: 상세 정보 박스가 보이도록 스크롤
+        setTimeout(() => {
+          detailRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+          });
+        }, 100);
+      }
     }
   };
 
@@ -147,6 +158,12 @@ const ProjectsSection = ({ data, onMediaClick }) => {
                   <p className="project-description">{project.description}</p>
                   
                   <div className="project-meta">
+                    {project.company && (
+                      <span className="meta-item company-tag">
+                        <Building2 size={14} />
+                        {project.company}
+                      </span>
+                    )}
                     <span className="meta-item">
                       <Calendar size={14} />
                       {project.period}
@@ -207,6 +224,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
                 <motion.div
                   key={selectedProject}
                   className="project-detail"
+                  ref={detailRef}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
@@ -303,6 +321,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           grid-template-columns: 380px 1fr;
           gap: 24px;
           min-height: 500px;
+          align-items: start;
         }
 
         .projects-layout.mobile {
@@ -370,7 +389,8 @@ const ProjectsSection = ({ data, onMediaClick }) => {
 
         .project-meta {
           display: flex;
-          gap: 12px;
+          flex-wrap: wrap;
+          gap: 8px 12px;
           margin-bottom: 10px;
         }
 
@@ -380,6 +400,14 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           gap: 4px;
           font-size: 0.75rem;
           color: var(--text-tertiary);
+        }
+
+        .meta-item.company-tag {
+          background: rgba(139, 92, 246, 0.15);
+          color: #a78bfa;
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-weight: 500;
         }
 
         .project-tech-preview {
@@ -420,9 +448,10 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           border-radius: 10px;
           padding: 24px;
           overflow-y: auto;
-          max-height: 600px;
+          max-height: calc(100vh - 120px);
           position: sticky;
-          top: 20px;
+          top: 40px;
+          align-self: flex-start;
         }
 
         /* 모바일 인라인 상세정보 */
