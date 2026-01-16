@@ -35,9 +35,9 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
   const { theme, toggleTheme } = useTheme();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const profileImageSrc = profile.drivePhotoId 
-    ? getDriveUrl(profile.drivePhotoId, 'image')
-    : profile.profileImage;
+  // profileImage URL이 있으면 직접 사용, drivePhotoId가 있으면 변환
+  const profileImageSrc = profile.profileImage 
+    || (profile.drivePhotoId ? getDriveUrl(profile.drivePhotoId, 'image') : '');
 
   const SidebarContent = () => (
     <>

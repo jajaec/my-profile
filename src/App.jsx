@@ -17,11 +17,7 @@ import AddressMapSection from './components/sections/AddressMapSection';
 import BookmarksSection from './components/sections/BookmarksSection';
 import ResourcesSection from './components/sections/ResourcesSection';
 
-import profileData from './data/profile.json';
-import careerData from './data/career.json';
-import liveDemoData from './data/liveDemo.json';
-import bookmarksData from './data/bookmarks.json';
-import resourcesData from './data/resources.json';
+import { useAllSheetData } from './hooks/useSheetData';
 
 import './App.css';
 
@@ -80,6 +76,9 @@ function AppContent() {
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [popupTool, setPopupTool] = useState(null);
+  
+  // Google Sheets에서 데이터 가져오기
+  const { data, loading, error } = useAllSheetData();
 
   useEffect(() => {
     const tool = getToolFromUrl();
@@ -103,6 +102,92 @@ function AppContent() {
     return <ToolPopup toolId={popupTool} />;
   }
 
+  // 로딩 상태
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>데이터를 불러오는 중...</p>
+        <style>{`
+          .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            gap: 16px;
+          }
+          .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error || !data) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">⚠️</div>
+        <h2>데이터를 불러올 수 없습니다</h2>
+        <p>Google Sheets 연결을 확인해 주세요.</p>
+        <button onClick={() => window.location.reload()} className="retry-button">
+          다시 시도
+        </button>
+        <style>{`
+          .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            gap: 16px;
+            text-align: center;
+            padding: 24px;
+          }
+          .error-icon {
+            font-size: 48px;
+          }
+          .error-container h2 {
+            font-size: 1.5rem;
+            margin: 0;
+          }
+          .error-container p {
+            color: var(--text-secondary);
+            margin: 0;
+          }
+          .retry-button {
+            margin-top: 16px;
+            padding: 12px 24px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+          }
+          .retry-button:hover {
+            opacity: 0.9;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
   const renderSection = () => {
     const sectionProps = {
       onMediaClick: handleMediaClick,
@@ -110,32 +195,32 @@ function AppContent() {
 
     switch (activeSection) {
       case 'about':
-        return <AboutSection data={profileData.about} {...sectionProps} />;
+        return <AboutSection data={data.about} {...sectionProps} />;
       case 'techStack':
-        return <TechStackSection data={profileData.techStack} />;
+        return <TechStackSection data={data.techStack} />;
       case 'experience':
-        return <ExperienceSection data={careerData.experience} />;
+        return <ExperienceSection data={data.experience} />;
       case 'projects':
-        return <ProjectsSection data={careerData.projects} {...sectionProps} />;
+        return <ProjectsSection data={data.projects} {...sectionProps} />;
       case 'webApps':
-        return <WebAppsSection data={liveDemoData} />;
+        return <WebAppsSection data={data.liveDemo} />;
       case 'education':
-        return <EducationSection data={profileData.education} />;
+        return <EducationSection data={data.education} />;
       case 'certifications':
-        return <CertificationsSection data={profileData.certifications} />;
+        return <CertificationsSection data={data.certifications} />;
       case 'resources':
-        return <ResourcesSection data={resourcesData} />;
+        return <ResourcesSection data={data.resources} />;
       case 'bookmarks':
-        return <BookmarksSection data={bookmarksData} />;
+        return <BookmarksSection data={data.bookmarks} />;
       default:
-        return <AboutSection data={profileData.about} {...sectionProps} />;
+        return <AboutSection data={data.about} {...sectionProps} />;
     }
   };
 
   return (
     <div className="app-container">
       <Sidebar
-        profile={profileData.profile}
+        profile={data.profile}
         activeSection={activeSection}
         onSectionChange={setActiveSection}
       />

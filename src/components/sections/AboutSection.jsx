@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Target, Code2, TrendingUp, Briefcase } from 'lucide-react';
+import { Sparkles, Target, Code2, TrendingUp, Briefcase, Lightbulb } from 'lucide-react';
 
 const AboutSection = ({ data }) => {
   const containerVariants = {
@@ -25,9 +25,32 @@ const AboutSection = ({ data }) => {
     { icon: Briefcase, color: '#f59e0b' },
   ];
 
-  // blocks에서 데이터 추출
-  const introTexts = data.blocks?.filter(b => b.type === 'text').map(b => b.value) || [];
-  const competencies = data.blocks?.find(b => b.type === 'list')?.items || [];
+  // blocks에서 섹션별 데이터 추출
+  const sections = [];
+  let currentSection = null;
+
+  data.blocks?.forEach((block) => {
+    if (block.type === 'heading') {
+      // 새 섹션 시작
+      if (currentSection) {
+        sections.push(currentSection);
+      }
+      currentSection = {
+        title: block.value,
+        texts: [],
+        items: [],
+      };
+    } else if (block.type === 'text' && currentSection) {
+      currentSection.texts.push(block.value);
+    } else if (block.type === 'list' && currentSection) {
+      currentSection.items = block.items || [];
+    }
+  });
+
+  // 마지막 섹션 추가
+  if (currentSection) {
+    sections.push(currentSection);
+  }
 
   return (
     <motion.section
@@ -41,47 +64,57 @@ const AboutSection = ({ data }) => {
         {data.title}
       </motion.h2>
 
-      {/* 간략 소개 카드 */}
-      <motion.div className="intro-card" variants={itemVariants}>
-        <div className="intro-header">
-          <div className="intro-icon-wrapper">
-            <Sparkles size={24} />
-          </div>
-          <h3 className="intro-title">간략 소개</h3>
-        </div>
-        <div className="intro-content">
-          {introTexts.map((text, idx) => (
-            <p key={idx} className="intro-text">{text}</p>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* 핵심 역량 섹션 */}
-      <motion.div className="competency-section" variants={itemVariants}>
-        <div className="competency-header">
-          <Target size={22} />
-          <h3 className="competency-title">핵심 역량</h3>
-        </div>
-        <div className="competency-grid">
-          {competencies.map((item, idx) => {
-            const IconComponent = competencyIcons[idx % competencyIcons.length].icon;
-            const iconColor = competencyIcons[idx % competencyIcons.length].color;
-            return (
-              <motion.div
-                key={idx}
-                className="competency-card"
-                whileHover={{ scale: 1.02, y: -4 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="competency-icon" style={{ background: `${iconColor}15`, color: iconColor }}>
-                  <IconComponent size={20} />
+      {sections.map((section, sectionIdx) => {
+        const isListSection = section.items.length > 0;
+        
+        if (isListSection) {
+          // 리스트가 있는 섹션 (핵심 역량 등)
+          return (
+            <motion.div key={sectionIdx} className="competency-section" variants={itemVariants}>
+              <div className="competency-header">
+                <Target size={22} />
+                <h3 className="competency-title">{section.title}</h3>
+              </div>
+              <div className="competency-grid">
+                {section.items.map((item, idx) => {
+                  const IconComponent = competencyIcons[idx % competencyIcons.length].icon;
+                  const iconColor = competencyIcons[idx % competencyIcons.length].color;
+                  return (
+                    <motion.div
+                      key={idx}
+                      className="competency-card"
+                      whileHover={{ scale: 1.02, y: -4 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <div className="competency-icon" style={{ background: `${iconColor}15`, color: iconColor }}>
+                        <IconComponent size={20} />
+                      </div>
+                      <span className="competency-text">{item}</span>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          );
+        } else {
+          // 텍스트만 있는 섹션 (간략 소개 등)
+          return (
+            <motion.div key={sectionIdx} className="intro-card" variants={itemVariants}>
+              <div className="intro-header">
+                <div className="intro-icon-wrapper">
+                  <Sparkles size={24} />
                 </div>
-                <span className="competency-text">{item}</span>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
+                <h3 className="intro-title">{section.title}</h3>
+              </div>
+              <div className="intro-content">
+                {section.texts.map((text, idx) => (
+                  <p key={idx} className="intro-text">{text}</p>
+                ))}
+              </div>
+            </motion.div>
+          );
+        }
+      })}
 
       <style>{`
         .about-section {
@@ -178,6 +211,7 @@ const AboutSection = ({ data }) => {
           border: 1px solid var(--border-light);
           border-radius: 16px;
           padding: 28px;
+          margin-bottom: 24px;
         }
 
         .competency-header {
@@ -253,3 +287,4 @@ const AboutSection = ({ data }) => {
 };
 
 export default AboutSection;
+
