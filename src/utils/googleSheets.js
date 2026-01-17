@@ -189,6 +189,7 @@ export function transformAbout(data) {
 
 /**
  * TechStack 시트 데이터를 기존 JSON 형식으로 변환
+ * A~D 컬럼만 사용: 분류(A), 아이콘(B), 기술명(C), 숙련도(D)
  */
 export function transformTechStack(data) {
   if (!data || data.length === 0) return { title: 'Tech Stack', categories: [] };
@@ -196,10 +197,14 @@ export function transformTechStack(data) {
   const categoryMap = new Map();
   
   data.forEach(row => {
+    // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
     const category = row['분류'] || '';
     const icon = row['아이콘'] || '';
     const name = row['기술명'] || '';
     const level = parseInt(row['숙련도(100점)'] || '0', 10);
+    
+    // 분류 또는 기술명이 없으면 무시
+    if (!category || !name) return;
     
     if (!categoryMap.has(category)) {
       categoryMap.set(category, { name: category, icon, items: [] });
@@ -216,131 +221,152 @@ export function transformTechStack(data) {
 
 /**
  * Experience 시트 데이터를 기존 JSON 형식으로 변환
+ * A~F 컬럼만 사용: 회사명(A), 직책(B), 근무기간(C), 한줄설명(D), 담당업무(E), 사용기술(F)
  */
 export function transformExperience(data) {
   if (!data || data.length === 0) return { title: 'Experience', items: [] };
   
-  const items = data.map(row => ({
-    company: row['회사명'] || '',
-    role: row['직책'] || '',
-    period: row['근무기간'] || '',
-    description: row['한줄설명'] || '',
-    tasks: splitByPipe(row['담당업무'] || ''),
-    techStack: splitByComma(row['사용기술'] || ''),
-  }));
+  const items = data
+    .filter(row => row['회사명']) // 회사명이 없는 행은 무시
+    .map(row => ({
+      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      company: row['회사명'] || '',
+      role: row['직책'] || '',
+      period: row['근무기간'] || '',
+      description: row['한줄설명'] || '',
+      tasks: splitByPipe(row['담당업무'] || ''),
+      techStack: splitByComma(row['사용기술'] || ''),
+    }));
   
   return { title: 'Experience', items };
 }
 
 /**
  * Projects 시트 데이터를 기존 JSON 형식으로 변환
+ * A~K 컬럼만 사용: 프로젝트명(A), 회사(B), 기간(C), 역할(D), 한줄설명(E), 
+ *                 기술스택(F), 개요(G), 주요기능(H), 핵심포인트(I), 아이콘(J), 이미지URL(K)
  */
 export function transformProjects(data) {
   if (!data || data.length === 0) return { title: 'Projects', items: [] };
   
-  const items = data.map(row => {
-    const blocks = [];
-    
-    // 개요 블록
-    const overview = row['개요'] || '';
-    if (overview) {
-      blocks.push({ type: 'heading', value: '프로젝트 개요' });
-      blocks.push({ type: 'text', value: overview });
-    }
-    
-    // 주요 기능 블록
-    const features = splitByPipe(row['주요기능'] || '');
-    if (features.length > 0) {
-      blocks.push({ type: 'heading', value: '주요 기능' });
-      blocks.push({ type: 'list', items: features });
-    }
-    
-    // 핵심 포인트 (callout)
-    const highlight = row['핵심포인트'] || '';
-    const icon = row['아이콘'] || '💡';
-    if (highlight) {
-      blocks.push({ type: 'callout', icon, value: highlight });
-    }
-    
-    // 이미지
-    const imageUrl = row['이미지URL'] || '';
-    if (imageUrl) {
-      blocks.push({ type: 'heading', value: '결과물' });
-      blocks.push({ type: 'image', value: imageUrl, caption: `${row['프로젝트명']} 화면` });
-    }
-    
-    return {
-      title: row['프로젝트명'] || '',
-      company: row['회사'] || '',
-      period: row['기간'] || '',
-      role: row['역할'] || '',
-      description: row['한줄설명'] || '',
-      techStack: splitByComma(row['기술스택'] || ''),
-      blocks,
-      links: {},
-    };
-  });
+  const items = data
+    .filter(row => row['프로젝트명']) // 프로젝트명이 없는 행은 무시
+    .map(row => {
+      // A~K 컬럼만 사용 (L 컬럼 이후는 무시)
+      const blocks = [];
+      
+      // 개요 블록
+      const overview = row['개요'] || '';
+      if (overview) {
+        blocks.push({ type: 'heading', value: '프로젝트 개요' });
+        blocks.push({ type: 'text', value: overview });
+      }
+      
+      // 주요 기능 블록
+      const features = splitByPipe(row['주요기능'] || '');
+      if (features.length > 0) {
+        blocks.push({ type: 'heading', value: '주요 기능' });
+        blocks.push({ type: 'list', items: features });
+      }
+      
+      // 핵심 포인트 (callout)
+      const highlight = row['핵심포인트'] || '';
+      const icon = row['아이콘'] || '💡';
+      if (highlight) {
+        blocks.push({ type: 'callout', icon, value: highlight });
+      }
+      
+      // 이미지
+      const imageUrl = row['이미지URL'] || '';
+      if (imageUrl) {
+        blocks.push({ type: 'heading', value: '결과물' });
+        blocks.push({ type: 'image', value: imageUrl, caption: `${row['프로젝트명']} 화면` });
+      }
+      
+      return {
+        title: row['프로젝트명'] || '',
+        company: row['회사'] || '',
+        period: row['기간'] || '',
+        role: row['역할'] || '',
+        description: row['한줄설명'] || '',
+        techStack: splitByComma(row['기술스택'] || ''),
+        blocks,
+        links: {},
+      };
+    });
   
   return { title: 'Projects', items };
 }
 
 /**
  * Education 시트 데이터를 기존 JSON 형식으로 변환
+ * A~F 컬럼만 사용: 학교명(A), 전공(B), 학위(C), 기간(D), 비고(E), 구분(F)
  */
 export function transformEducation(data) {
   if (!data || data.length === 0) return { title: 'Education', items: [] };
   
-  const items = data.map(row => ({
-    school: row['학교명'] || '',
-    major: row['전공'] || '',
-    degree: row['학위'] || '',
-    period: row['기간'] || '',
-    description: row['비고'] || '',
-    type: row['구분'] || 'university',
-  }));
+  const items = data
+    .filter(row => row['학교명']) // 학교명이 없는 행은 무시
+    .map(row => ({
+      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      school: row['학교명'] || '',
+      major: row['전공'] || '',
+      degree: row['학위'] || '',
+      period: row['기간'] || '',
+      description: row['비고'] || '',
+      type: row['구분'] || 'university',
+    }));
   
   return { title: 'Education', items };
 }
 
 /**
  * Certifications 시트 데이터를 기존 JSON 형식으로 변환
+ * A~D 컬럼만 사용: 자격증명(A), 발급기관(B), 취득일(C), 아이콘(D)
  */
 export function transformCertifications(data) {
   if (!data || data.length === 0) return { title: 'Certifications', items: [] };
   
-  const items = data.map(row => ({
-    name: row['자격증명'] || '',
-    issuer: row['발급기관'] || '',
-    date: row['취득일'] || '',
-    icon: row['아이콘'] || '📜',
-  }));
+  const items = data
+    .filter(row => row['자격증명']) // 자격증명이 없는 행은 무시
+    .map(row => ({
+      // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
+      name: row['자격증명'] || '',
+      issuer: row['발급기관'] || '',
+      date: row['취득일'] || '',
+      icon: row['아이콘'] || '📜',
+    }));
   
   return { title: 'Certifications', items };
 }
 
 /**
  * Bookmarks 시트 데이터를 기존 JSON 형식으로 변환
+ * A~F 컬럼만 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 사이트명(D), URL(E), 설명(F)
  */
 export function transformBookmarks(data) {
   if (!data || data.length === 0) return { title: 'Bookmarks', description: '', categories: [] };
   
   const categoryMap = new Map();
   
-  data.forEach(row => {
-    const category = row['카테고리'] || '';
-    const icon = row['카테고리아이콘'] || '';
-    const color = row['카테고리색상'] || '#8b5cf6';
-    
-    if (!categoryMap.has(category)) {
-      categoryMap.set(category, { name: category, icon, color, items: [] });
-    }
-    
-    categoryMap.get(category).items.push({
-      title: row['사이트명'] || '',
-      url: row['URL'] || '',
-      description: row['설명'] || '',
+  data
+    .filter(row => row['사이트명']) // 사이트명이 없는 행은 무시
+    .forEach(row => {
+      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      const category = row['카테고리'] || '';
+      const icon = row['카테고리아이콘'] || '';
+      const color = row['카테고리색상'] || '#8b5cf6';
+      
+      if (!categoryMap.has(category)) {
+        categoryMap.set(category, { name: category, icon, color, items: [] });
+      }
+      
+      categoryMap.get(category).items.push({
+        title: row['사이트명'] || '',
+        url: row['URL'] || '',
+        description: row['설명'] || '',
+      });
     });
-  });
   
   return {
     title: 'Bookmarks',
@@ -351,20 +377,24 @@ export function transformBookmarks(data) {
 
 /**
  * LiveDemo 시트 데이터를 기존 JSON 형식으로 변환
+ * A~H 컬럼만 사용: 제목(A), 설명(B), URL(C), 썸네일URL(D), 기술스택(E), 플랫폼(F), 신규여부(G), 로그인필요(H)
  */
 export function transformLiveDemo(data) {
   if (!data || data.length === 0) return { title: 'Live Demo', description: '', items: [] };
   
-  const items = data.map(row => ({
-    title: row['제목'] || '',
-    description: row['설명'] || '',
-    url: row['URL'] || '',
-    thumbnail: row['썸네일URL'] || '',
-    techStack: splitByComma(row['기술스택'] || ''),
-    platform: row['플랫폼'] || '',
-    isNew: row['신규여부']?.toUpperCase() === 'TRUE',
-    requiresLogin: row['로그인필요']?.toUpperCase() === 'TRUE',
-  }));
+  const items = data
+    .filter(row => row['제목']) // 제목이 없는 행은 무시
+    .map(row => ({
+      // A~H 컬럼만 사용 (I 컬럼 이후는 무시)
+      title: row['제목'] || '',
+      description: row['설명'] || '',
+      url: row['URL'] || '',
+      thumbnail: row['썸네일URL'] || '',
+      techStack: splitByComma(row['기술스택'] || ''),
+      platform: row['플랫폼'] || '',
+      isNew: row['신규여부']?.toUpperCase() === 'TRUE',
+      requiresLogin: row['로그인필요']?.toUpperCase() === 'TRUE',
+    }));
   
   return {
     title: 'Live Demo',
@@ -375,16 +405,20 @@ export function transformLiveDemo(data) {
 
 /**
  * InternalTools 시트 데이터를 기존 JSON 형식으로 변환
+ * A~D 컬럼만 사용: ID(A), 제목(B), 설명(C), 아이콘(D)
  */
 export function transformInternalTools(data) {
   if (!data || data.length === 0) return { title: 'Internal Tools', description: '', items: [] };
   
-  const items = data.map(row => ({
-    id: row['ID'] || '',
-    title: row['제목'] || '',
-    description: row['설명'] || '',
-    icon: row['아이콘'] || 'Wrench',
-  }));
+  const items = data
+    .filter(row => row['ID']) // ID가 없는 행은 무시
+    .map(row => ({
+      // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
+      id: row['ID'] || '',
+      title: row['제목'] || '',
+      description: row['설명'] || '',
+      icon: row['아이콘'] || 'Wrench',
+    }));
   
   return {
     title: 'Internal Tools',
@@ -395,29 +429,33 @@ export function transformInternalTools(data) {
 
 /**
  * Resources 시트 데이터를 기존 JSON 형식으로 변환
+ * A~H 컬럼만 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 제목(D), 설명(E), 문서URL(F), 태그(G), 작성일(H)
  */
 export function transformResources(data) {
   if (!data || data.length === 0) return { title: 'Resources', description: '', categories: [] };
   
   const categoryMap = new Map();
   
-  data.forEach(row => {
-    const category = row['카테고리'] || '';
-    const icon = row['카테고리아이콘'] || '';
-    const color = row['카테고리색상'] || '#8b5cf6';
-    
-    if (!categoryMap.has(category)) {
-      categoryMap.set(category, { name: category, icon, color, items: [] });
-    }
-    
-    categoryMap.get(category).items.push({
-      title: row['제목'] || '',
-      description: row['설명'] || '',
-      docUrl: row['문서URL'] || '',
-      tags: splitByComma(row['태그'] || ''),
-      createdDate: row['작성일'] || '',
+  data
+    .filter(row => row['제목']) // 제목이 없는 행은 무시
+    .forEach(row => {
+      // A~H 컬럼만 사용 (I 컬럼 이후는 무시)
+      const category = row['카테고리'] || '';
+      const icon = row['카테고리아이콘'] || '';
+      const color = row['카테고리색상'] || '#8b5cf6';
+      
+      if (!categoryMap.has(category)) {
+        categoryMap.set(category, { name: category, icon, color, items: [] });
+      }
+      
+      categoryMap.get(category).items.push({
+        title: row['제목'] || '',
+        description: row['설명'] || '',
+        docUrl: row['문서URL'] || '',
+        tags: splitByComma(row['태그'] || ''),
+        createdDate: row['작성일'] || '',
+      });
     });
-  });
   
   return {
     title: 'Resources',
