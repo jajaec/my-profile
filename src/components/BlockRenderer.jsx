@@ -63,11 +63,54 @@ const BlockRenderer = ({ block, onMediaClick }) => {
         );
 
       case 'video':
-        const videoId = block.driveId || block.value;
-        if (!videoId) return null;
+        const videoUrl = block.value;
+        if (!videoUrl) return null;
         
-        const videoSrc = getDriveUrl(videoId, 'video');
+        // YouTube URL 처리
+        const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+        // Google Drive URL 처리
+        const isGoogleDrive = videoUrl.includes('drive.google.com');
+        // 직접 비디오 파일 (mp4 등)
+        const isDirectVideo = videoUrl.endsWith('.mp4') || videoUrl.endsWith('.webm') || videoUrl.endsWith('.ogg');
+        
+        let videoSrc = videoUrl;
+        
+        // YouTube embed URL로 변환
+        if (isYouTube && !videoUrl.includes('/embed/')) {
+          const videoIdMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/);
+          if (videoIdMatch) {
+            videoSrc = `https://www.youtube.com/embed/${videoIdMatch[1]}`;
+          }
+        }
+        
+        // Google Drive preview URL로 변환
+        if (isGoogleDrive && !videoUrl.includes('/preview')) {
+          const fileIdMatch = videoUrl.match(/\/d\/([^/]+)/);
+          if (fileIdMatch) {
+            videoSrc = `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+          }
+        }
 
+        // 직접 비디오 파일은 video 태그 사용
+        if (isDirectVideo) {
+          return (
+            <div className="block-media">
+              <video
+                src={videoSrc}
+                controls
+                className="block-video-native"
+                onClick={(e) => e.stopPropagation()}
+              >
+                브라우저가 비디오를 지원하지 않습니다.
+              </video>
+              {block.caption && (
+                <p className="media-caption">{block.caption}</p>
+              )}
+            </div>
+          );
+        }
+
+        // iframe으로 YouTube/Google Drive 처리
         return (
           <div className="block-media">
             <div 
@@ -220,6 +263,14 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           left: 0;
           width: 100%;
           height: 100%;
+        }
+
+        .block-video-native {
+          width: 100%;
+          max-width: 100%;
+          border-radius: 8px;
+          box-shadow: var(--shadow-sm);
+          background: #000;
         }
 
         .media-caption {

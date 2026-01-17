@@ -189,7 +189,7 @@ export function transformAbout(data) {
 
 /**
  * TechStack 시트 데이터를 기존 JSON 형식으로 변환
- * A~D 컬럼만 사용: 분류(A), 아이콘(B), 기술명(C), 숙련도(D)
+ * A~E 컬럼 사용: 분류(A), 아이콘(B), 기술명(C), 숙련도(D), 표시여부(E)
  */
 export function transformTechStack(data) {
   if (!data || data.length === 0) return { title: 'Tech Stack', categories: [] };
@@ -197,7 +197,7 @@ export function transformTechStack(data) {
   const categoryMap = new Map();
   
   data.forEach(row => {
-    // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
+    // A~E 컬럼 사용 (F 컬럼 이후는 무시)
     const category = row['분류'] || '';
     const icon = row['아이콘'] || '';
     const name = row['기술명'] || '';
@@ -205,6 +205,10 @@ export function transformTechStack(data) {
     
     // 분류 또는 기술명이 없으면 무시
     if (!category || !name) return;
+    
+    // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+    const visible = row['표시여부'];
+    if (visible && visible.toUpperCase() === 'FALSE') return;
     
     if (!categoryMap.has(category)) {
       categoryMap.set(category, { name: category, icon, items: [] });
@@ -221,15 +225,24 @@ export function transformTechStack(data) {
 
 /**
  * Experience 시트 데이터를 기존 JSON 형식으로 변환
- * A~F 컬럼만 사용: 회사명(A), 직책(B), 근무기간(C), 한줄설명(D), 담당업무(E), 사용기술(F)
+ * A~G 컬럼 사용: 회사명(A), 직책(B), 근무기간(C), 한줄설명(D), 담당업무(E), 사용기술(F), 표시여부(G)
  */
 export function transformExperience(data) {
   if (!data || data.length === 0) return { title: 'Experience', items: [] };
   
   const items = data
-    .filter(row => row['회사명']) // 회사명이 없는 행은 무시
+    .filter(row => {
+      // 회사명이 없는 행은 무시
+      if (!row['회사명']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => ({
-      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      // A~G 컬럼 사용 (H 컬럼 이후는 무시)
       company: row['회사명'] || '',
       role: row['직책'] || '',
       period: row['근무기간'] || '',
@@ -240,19 +253,28 @@ export function transformExperience(data) {
   
   return { title: 'Experience', items };
 }
-
 /**
  * Projects 시트 데이터를 기존 JSON 형식으로 변환
- * A~K 컬럼만 사용: 프로젝트명(A), 회사(B), 기간(C), 역할(D), 한줄설명(E), 
- *                 기술스택(F), 개요(G), 주요기능(H), 핵심포인트(I), 아이콘(J), 이미지URL(K)
+ * A~M 컬럼 사용: 프로젝트명(A), 회사(B), 기간(C), 역할(D), 한줄설명(E), 
+ *               기술스택(F), 개요(G), 주요기능(H), 핵심포인트(I), 아이콘(J), 
+ *               이미지URL(K, 파이프로 복수), 영상URL(L, 파이프로 복수), 표시여부(M)
  */
 export function transformProjects(data) {
   if (!data || data.length === 0) return { title: 'Projects', items: [] };
   
   const items = data
-    .filter(row => row['프로젝트명']) // 프로젝트명이 없는 행은 무시
+    .filter(row => {
+      // 프로젝트명이 없는 행은 무시
+      if (!row['프로젝트명']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => {
-      // A~K 컬럼만 사용 (L 컬럼 이후는 무시)
+      // A~M 컬럼 사용 (N 컬럼 이후는 무시)
       const blocks = [];
       
       // 개요 블록
@@ -276,11 +298,32 @@ export function transformProjects(data) {
         blocks.push({ type: 'callout', icon, value: highlight });
       }
       
-      // 이미지
-      const imageUrl = row['이미지URL'] || '';
-      if (imageUrl) {
+      // 이미지 (파이프로 구분된 복수 이미지 지원)
+      const imageUrls = splitByPipe(row['이미지URL'] || '');
+      if (imageUrls.length > 0) {
         blocks.push({ type: 'heading', value: '결과물' });
-        blocks.push({ type: 'image', value: imageUrl, caption: `${row['프로젝트명']} 화면` });
+        imageUrls.forEach((url, idx) => {
+          blocks.push({ 
+            type: 'image', 
+            value: url, 
+            caption: `${row['프로젝트명']} 화면 ${imageUrls.length > 1 ? (idx + 1) : ''}`.trim()
+          });
+        });
+      }
+      
+      // 영상 (파이프로 구분된 복수 영상 지원)
+      const videoUrls = splitByPipe(row['영상URL'] || '');
+      if (videoUrls.length > 0) {
+        if (imageUrls.length === 0) {
+          blocks.push({ type: 'heading', value: '결과물' });
+        }
+        videoUrls.forEach((url, idx) => {
+          blocks.push({ 
+            type: 'video', 
+            value: url, 
+            caption: `${row['프로젝트명']} 영상 ${videoUrls.length > 1 ? (idx + 1) : ''}`.trim()
+          });
+        });
       }
       
       return {
@@ -300,15 +343,24 @@ export function transformProjects(data) {
 
 /**
  * Education 시트 데이터를 기존 JSON 형식으로 변환
- * A~F 컬럼만 사용: 학교명(A), 전공(B), 학위(C), 기간(D), 비고(E), 구분(F)
+ * A~G 컬럼 사용: 학교명(A), 전공(B), 학위(C), 기간(D), 비고(E), 구분(F), 표시여부(G)
  */
 export function transformEducation(data) {
   if (!data || data.length === 0) return { title: 'Education', items: [] };
   
   const items = data
-    .filter(row => row['학교명']) // 학교명이 없는 행은 무시
+    .filter(row => {
+      // 학교명이 없는 행은 무시
+      if (!row['학교명']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => ({
-      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      // A~G 컬럼 사용 (H 컬럼 이후는 무시)
       school: row['학교명'] || '',
       major: row['전공'] || '',
       degree: row['학위'] || '',
@@ -322,15 +374,24 @@ export function transformEducation(data) {
 
 /**
  * Certifications 시트 데이터를 기존 JSON 형식으로 변환
- * A~D 컬럼만 사용: 자격증명(A), 발급기관(B), 취득일(C), 아이콘(D)
+ * A~E 컬럼 사용: 자격증명(A), 발급기관(B), 취득일(C), 아이콘(D), 표시여부(E)
  */
 export function transformCertifications(data) {
   if (!data || data.length === 0) return { title: 'Certifications', items: [] };
   
   const items = data
-    .filter(row => row['자격증명']) // 자격증명이 없는 행은 무시
+    .filter(row => {
+      // 자격증명이 없는 행은 무시
+      if (!row['자격증명']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => ({
-      // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
+      // A~E 컬럼 사용 (F 컬럼 이후는 무시)
       name: row['자격증명'] || '',
       issuer: row['발급기관'] || '',
       date: row['취득일'] || '',
@@ -342,7 +403,7 @@ export function transformCertifications(data) {
 
 /**
  * Bookmarks 시트 데이터를 기존 JSON 형식으로 변환
- * A~F 컬럼만 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 사이트명(D), URL(E), 설명(F)
+ * A~G 컬럼 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 사이트명(D), URL(E), 설명(F), 표시여부(G)
  */
 export function transformBookmarks(data) {
   if (!data || data.length === 0) return { title: 'Bookmarks', description: '', categories: [] };
@@ -350,9 +411,18 @@ export function transformBookmarks(data) {
   const categoryMap = new Map();
   
   data
-    .filter(row => row['사이트명']) // 사이트명이 없는 행은 무시
+    .filter(row => {
+      // 사이트명이 없는 행은 무시
+      if (!row['사이트명']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .forEach(row => {
-      // A~F 컬럼만 사용 (G 컬럼 이후는 무시)
+      // A~G 컬럼 사용 (H 컬럼 이후는 무시)
       const category = row['카테고리'] || '';
       const icon = row['카테고리아이콘'] || '';
       const color = row['카테고리색상'] || '#8b5cf6';
@@ -377,15 +447,24 @@ export function transformBookmarks(data) {
 
 /**
  * LiveDemo 시트 데이터를 기존 JSON 형식으로 변환
- * A~H 컬럼만 사용: 제목(A), 설명(B), URL(C), 썸네일URL(D), 기술스택(E), 플랫폼(F), 신규여부(G), 로그인필요(H)
+ * A~I 컬럼 사용: 제목(A), 설명(B), URL(C), 썸네일URL(D), 기술스택(E), 플랫폼(F), 신규여부(G), 로그인필요(H), 표시여부(I)
  */
 export function transformLiveDemo(data) {
   if (!data || data.length === 0) return { title: 'Live Demo', description: '', items: [] };
   
   const items = data
-    .filter(row => row['제목']) // 제목이 없는 행은 무시
+    .filter(row => {
+      // 제목이 없는 행은 무시
+      if (!row['제목']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => ({
-      // A~H 컬럼만 사용 (I 컬럼 이후는 무시)
+      // A~I 컬럼 사용 (J 컬럼 이후는 무시)
       title: row['제목'] || '',
       description: row['설명'] || '',
       url: row['URL'] || '',
@@ -405,15 +484,24 @@ export function transformLiveDemo(data) {
 
 /**
  * InternalTools 시트 데이터를 기존 JSON 형식으로 변환
- * A~D 컬럼만 사용: ID(A), 제목(B), 설명(C), 아이콘(D)
+ * A~E 컬럼 사용: ID(A), 제목(B), 설명(C), 아이콘(D), 표시여부(E)
  */
 export function transformInternalTools(data) {
   if (!data || data.length === 0) return { title: 'Internal Tools', description: '', items: [] };
   
   const items = data
-    .filter(row => row['ID']) // ID가 없는 행은 무시
+    .filter(row => {
+      // ID가 없는 행은 무시
+      if (!row['ID']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .map(row => ({
-      // A~D 컬럼만 사용 (E 컬럼 이후는 무시)
+      // A~E 컬럼 사용 (F 컬럼 이후는 무시)
       id: row['ID'] || '',
       title: row['제목'] || '',
       description: row['설명'] || '',
@@ -429,7 +517,7 @@ export function transformInternalTools(data) {
 
 /**
  * Resources 시트 데이터를 기존 JSON 형식으로 변환
- * A~H 컬럼만 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 제목(D), 설명(E), 문서URL(F), 태그(G), 작성일(H)
+ * A~I 컬럼 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 제목(D), 설명(E), 문서URL(F), 태그(G), 작성일(H), 표시여부(I)
  */
 export function transformResources(data) {
   if (!data || data.length === 0) return { title: 'Resources', description: '', categories: [] };
@@ -437,9 +525,18 @@ export function transformResources(data) {
   const categoryMap = new Map();
   
   data
-    .filter(row => row['제목']) // 제목이 없는 행은 무시
+    .filter(row => {
+      // 제목이 없는 행은 무시
+      if (!row['제목']) return false;
+      
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      const visible = row['표시여부'];
+      if (visible && visible.toUpperCase() === 'FALSE') return false;
+      
+      return true;
+    })
     .forEach(row => {
-      // A~H 컬럼만 사용 (I 컬럼 이후는 무시)
+      // A~I 컬럼 사용 (J 컬럼 이후는 무시)
       const category = row['카테고리'] || '';
       const icon = row['카테고리아이콘'] || '';
       const color = row['카테고리색상'] || '#8b5cf6';
