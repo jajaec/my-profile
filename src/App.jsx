@@ -16,8 +16,10 @@ import MallReportSection from './components/sections/MallReportSection';
 import AddressMapSection from './components/sections/AddressMapSection';
 import BookmarksSection from './components/sections/BookmarksSection';
 import ResourcesSection from './components/sections/ResourcesSection';
+import AnalyticsSection from './components/sections/AnalyticsSection';
 
 import { useAllSheetData } from './hooks/useSheetData';
+import { logPageView, logInitialVisit } from './utils/logger';
 
 import './App.css';
 
@@ -84,6 +86,9 @@ function AppContent() {
     const tool = getToolFromUrl();
     if (tool) {
       setPopupTool(tool);
+    } else {
+      // 초기 방문 로그 기록
+      logInitialVisit();
     }
   }, []);
 
@@ -212,6 +217,8 @@ function AppContent() {
         return <ResourcesSection data={data.resources} />;
       case 'bookmarks':
         return <BookmarksSection data={data.bookmarks} />;
+      case 'analytics':
+        return <AnalyticsSection />;
       default:
         return <AboutSection data={data.about} {...sectionProps} />;
     }
@@ -222,7 +229,10 @@ function AppContent() {
       <Sidebar
         profile={data.profile}
         activeSection={activeSection}
-        onSectionChange={setActiveSection}
+        onSectionChange={(section) => {
+          setActiveSection(section);
+          logPageView(section); // 섹션 변경 로그 기록
+        }}
       />
 
       <main className="main-content">

@@ -15,6 +15,7 @@ import {
   Rocket,
   Bookmark,
   Library,
+  BarChart3,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { getDriveUrl } from '../utils/helpers';
@@ -29,6 +30,7 @@ const menuItems = [
   { id: 'resources', label: 'Resources', icon: Library },
   { id: 'webApps', label: 'Live Demo', icon: Rocket },
   { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
 ];
 
 const Sidebar = ({ profile, activeSection, onSectionChange }) => {
