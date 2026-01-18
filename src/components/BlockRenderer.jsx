@@ -172,6 +172,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           font-size: 1rem;
           line-height: 1.7;
           color: var(--text-primary);
+          white-space: pre-line;
         }
 
         .block-heading {
@@ -228,6 +229,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           color: var(--text-primary);
           font-size: 0.95rem;
           line-height: 1.6;
+          white-space: pre-line;
         }
 
         .block-media {
