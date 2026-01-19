@@ -27,6 +27,8 @@ async function getIPAddress() {
   }
 }
 
+const EXCLUDED_IP = '221.165.52.1';
+
 /**
  * 섹션 방문 로그 기록
  * @param {string} section - 방문한 섹션명 (about, projects 등)
@@ -35,6 +37,12 @@ export async function logPageView(section) {
   try {
     const ip = await getIPAddress();
     
+    // 특정 IP 제외
+    if (ip === EXCLUDED_IP) {
+      // console.log('🚫 로그 기록 제외 (IP):', ip);
+      return;
+    }
+
     const logData = {
       section,
       ip,
