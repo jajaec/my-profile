@@ -343,24 +343,25 @@ export function transformProjects(data) {
 
 /**
  * Education 시트 데이터를 기존 JSON 형식으로 변환
- * A~G 컬럼 사용: 학교명(A), 전공(B), 학위(C), 기간(D), 비고(E), 구분(F), 표시여부(G)
+ * A~H 컬럼 사용: 지역(A), 학교명(B), 전공(C), 학위(D), 기간(E), 비고(F), 구분(G), 표시여부(H)
  */
 export function transformEducation(data) {
   if (!data || data.length === 0) return { title: 'Education', items: [] };
   
   const items = data
     .filter(row => {
-      // 학교명이 없는 행은 무시
+      // 학교명이 없는 행은 무시 (B열)
       if (!row['학교명']) return false;
       
-      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시)
+      // 표시여부가 FALSE면 무시 (값이 없거나 TRUE면 표시, H열)
       const visible = row['표시여부'];
       if (visible && visible.toUpperCase() === 'FALSE') return false;
       
       return true;
     })
     .map(row => ({
-      // A~G 컬럼 사용 (H 컬럼 이후는 무시)
+      // A~H 컬럼 사용 (I 컬럼 이후는 무시)
+      location: row['지역'] || '',
       school: row['학교명'] || '',
       major: row['전공'] || '',
       degree: row['학위'] || '',

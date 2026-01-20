@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { GraduationCap, School, Calendar, BookOpen, Building, Laptop, Award } from 'lucide-react';
+import { GraduationCap, School, Calendar, BookOpen, Building, Laptop, Award, MapPin } from 'lucide-react';
 
 // 교육 유형별 설정
 const educationTypes = {
@@ -68,10 +68,18 @@ const EducationSection = ({ data }) => {
                 <p className="edu-major">
                   {edu.major} · {edu.degree}
                 </p>
-                <span className="edu-period">
-                  <Calendar size={14} />
-                  {edu.period}
-                </span>
+                <div className="edu-meta">
+                  {edu.location && (
+                    <span className="edu-location">
+                      <MapPin size={14} />
+                      {edu.location}
+                    </span>
+                  )}
+                  <span className="edu-period">
+                    <Calendar size={14} />
+                    {edu.period}
+                  </span>
+                </div>
                 {edu.description && (
                   <p className="edu-description">{edu.description}</p>
                 )}
@@ -198,7 +206,14 @@ const EducationSection = ({ data }) => {
           margin-bottom: 8px;
         }
 
-        .edu-period {
+        .edu-meta {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 8px;
+        }
+
+        .edu-period, .edu-location {
           display: inline-flex;
           align-items: center;
           gap: 6px;

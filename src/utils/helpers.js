@@ -11,7 +11,7 @@ export const getDriveUrl = (id, type = 'image') => {
     return `https://drive.google.com/file/d/${id}/preview`;
   }
   
-  // 이미지의 경우
+  // 이미지의 경우 - uc endpoint 사용 (기존 방식 복원)
   return `https://drive.google.com/uc?export=view&id=${id}`;
 };
 

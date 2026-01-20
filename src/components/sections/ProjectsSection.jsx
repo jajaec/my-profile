@@ -1,21 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, User, ExternalLink, Github, ChevronRight, ChevronDown, X, Building2 } from 'lucide-react';
+import { Calendar, User, ExternalLink, Github, ChevronDown, Building2, FolderKanban } from 'lucide-react';
 import BlockRenderer from '../BlockRenderer';
 
 const ProjectsSection = ({ data, onMediaClick }) => {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const projectRefs = useRef([]);
-  const detailRef = useRef(null);
-
-  // 화면 크기 감지
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  const [expandedIdx, setExpandedIdx] = useState(0);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -32,99 +21,9 @@ const ProjectsSection = ({ data, onMediaClick }) => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const handleProjectClick = (idx) => {
-    const isOpening = selectedProject !== idx;
-    setSelectedProject(isOpening ? idx : null);
-    
-    if (isOpening) {
-      if (isMobile && projectRefs.current[idx]) {
-        // 모바일: 해당 카드를 화면 상단으로 스크롤
-        setTimeout(() => {
-          projectRefs.current[idx].scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          });
-        }, 100);
-      } else if (!isMobile && detailRef.current) {
-        // 데스크톱: 상세 정보 박스가 보이도록 스크롤
-        setTimeout(() => {
-          detailRef.current.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'nearest' 
-          });
-        }, 100);
-      }
-    }
+  const toggleExpand = (idx) => {
+    setExpandedIdx(expandedIdx === idx ? -1 : idx);
   };
-
-  const closeDetail = () => {
-    setSelectedProject(null);
-  };
-
-  // 모바일용 인라인 상세정보 컴포넌트
-  const MobileProjectDetail = ({ project, onClose }) => (
-    <motion.div
-      className="mobile-project-detail"
-      initial={{ height: 0, opacity: 0 }}
-      animate={{ height: 'auto', opacity: 1 }}
-      exit={{ height: 0, opacity: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <div className="mobile-detail-content">
-        <div className="detail-header">
-          <h3 className="detail-title">{project.title}</h3>
-          <button className="close-btn" onClick={onClose}>
-            <X size={18} />
-          </button>
-        </div>
-
-        {project.links && (
-          <div className="detail-links">
-            {project.links.github && (
-              <a
-                href={project.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="detail-link"
-              >
-                <Github size={16} />
-                GitHub
-              </a>
-            )}
-            {project.links.demo && (
-              <a
-                href={project.links.demo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="detail-link"
-              >
-                <ExternalLink size={16} />
-                Demo
-              </a>
-            )}
-          </div>
-        )}
-
-        <div className="detail-tech-stack">
-          {project.techStack?.map((tech, idx) => (
-            <span key={idx} className="tech-tag">
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <div className="detail-blocks">
-          {project.blocks?.map((block, idx) => (
-            <BlockRenderer
-              key={idx}
-              block={block}
-              onMediaClick={onMediaClick}
-            />
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
 
   return (
     <motion.section
@@ -138,166 +37,127 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         {data.title}
       </motion.h2>
 
-      <div className={`projects-layout ${isMobile ? 'mobile' : ''}`}>
-        {/* Project List */}
-        <motion.div className="projects-list" variants={containerVariants}>
-          {data.items?.map((project, idx) => (
-            <div 
-              key={idx} 
-              className="project-item-wrapper"
-              ref={el => projectRefs.current[idx] = el}
-            >
-              <motion.div
-                className={`project-card ${selectedProject === idx ? 'selected' : ''}`}
-                variants={itemVariants}
-                whileHover={{ x: 4 }}
-                onClick={() => handleProjectClick(idx)}
-              >
-                <div className="project-card-content">
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
+      <div className="projects-list">
+        {data.items?.map((project, idx) => (
+          <motion.div
+            key={idx}
+            className={`project-card ${expandedIdx === idx ? 'expanded' : ''}`}
+            variants={itemVariants}
+          >
+            <div className="project-header" onClick={() => toggleExpand(idx)}>
+              <div className="header-main">
+                <div className="title-row">
+                  <div className="title-group">
+                    <FolderKanban size={20} className="project-icon" />
+                    <h3 className="project-title">{project.title}</h3>
+                  </div>
                   
-                  <div className="project-meta">
-                    {project.company && (
-                      <span className="meta-item company-tag">
-                        <Building2 size={14} />
-                        {project.company}
-                      </span>
-                    )}
-                    <span className="meta-item">
-                      <Calendar size={14} />
-                      {project.period}
-                    </span>
-                    <span className="meta-item">
-                      <User size={14} />
-                      {project.role}
-                    </span>
-                  </div>
-
-                  <div className="project-tech-preview">
-                    {project.techStack?.slice(0, 4).map((tech, techIdx) => (
-                      <span key={techIdx} className="tech-badge">
-                        {tech}
-                      </span>
-                    ))}
-                    {project.techStack?.length > 4 && (
-                      <span className="tech-badge more">
-                        +{project.techStack.length - 4}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                
-                {isMobile ? (
-                  <ChevronDown 
-                    size={18} 
-                    className={`chevron-icon ${selectedProject === idx ? 'rotated' : ''}`}
-                  />
-                ) : (
-                  <ChevronRight 
-                    size={18} 
-                    className={`chevron-icon ${selectedProject === idx ? 'rotated' : ''}`}
-                  />
-                )}
-              </motion.div>
-
-              {/* 모바일: 카드 바로 아래에 상세정보 표시 */}
-              {isMobile && (
-                <AnimatePresence>
-                  {selectedProject === idx && (
-                    <MobileProjectDetail 
-                      project={project} 
-                      onClose={closeDetail}
-                    />
-                  )}
-                </AnimatePresence>
-              )}
-            </div>
-          ))}
-        </motion.div>
-
-        {/* 데스크톱: 오른쪽에 상세정보 표시 */}
-        {!isMobile && (
-          <>
-            <AnimatePresence mode="wait">
-              {selectedProject !== null && (
-                <motion.div
-                  key={selectedProject}
-                  className="project-detail"
-                  ref={detailRef}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="detail-header">
-                    <h3 className="detail-title">
-                      {data.items[selectedProject].title}
-                    </h3>
-                    
-                    {data.items[selectedProject].links && (
-                      <div className="detail-links">
-                        {data.items[selectedProject].links.github && (
+                  <div className="header-actions">
+                    {project.links && (
+                      <div className="quick-links" onClick={(e) => e.stopPropagation()}>
+                        {project.links.github && (
                           <a
-                            href={data.items[selectedProject].links.github}
+                            href={project.links.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="detail-link"
+                            className="icon-btn github"
+                            title="View Code"
                           >
-                            <Github size={16} />
-                            GitHub
+                            <Github size={18} />
                           </a>
                         )}
-                        {data.items[selectedProject].links.demo && (
+                        {project.links.demo && (
                           <a
-                            href={data.items[selectedProject].links.demo}
+                            href={project.links.demo}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="detail-link"
+                            className="icon-btn demo"
+                            title="Live Demo"
                           >
-                            <ExternalLink size={16} />
-                            Demo
+                            <ExternalLink size={18} />
                           </a>
                         )}
                       </div>
                     )}
+                    <button 
+                      className={`expand-btn ${expandedIdx === idx ? 'rotated' : ''}`}
+                      aria-label="Toggle details"
+                    >
+                      <ChevronDown size={20} />
+                    </button>
                   </div>
+                </div>
 
-                  <div className="detail-tech-stack">
-                    {data.items[selectedProject].techStack?.map((tech, idx) => (
-                      <span key={idx} className="tech-tag">
+                <div className="meta-row">
+                  <div className="meta-info">
+                    {project.company && (
+                      <span className="meta-badge company">
+                        <Building2 size={12} />
+                        {project.company}
+                      </span>
+                    )}
+                    <span className="meta-text role">
+                      <User size={12} />
+                      {project.role}
+                    </span>
+                    <span className="meta-divider">|</span>
+                    <span className="meta-text date">
+                      <Calendar size={12} />
+                      {project.period}
+                    </span>
+                  </div>
+                </div>
+
+                {project.techStack && (
+                  <div className="header-tech">
+                    {project.techStack.map((tech, techIdx) => (
+                      <span key={techIdx} className="tech-chip">
                         {tech}
                       </span>
                     ))}
                   </div>
+                )}
+              </div>
+            </div>
 
-                  <div className="detail-blocks">
-                    {data.items[selectedProject].blocks?.map((block, idx) => (
-                      <BlockRenderer
-                        key={idx}
-                        block={block}
-                        onMediaClick={onMediaClick}
-                      />
-                    ))}
+            <AnimatePresence>
+              {expandedIdx === idx && (
+                <motion.div
+                  className="project-body"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="body-inner">
+                    <div className="description-box">
+                      <h4 className="section-label">Project Overview</h4>
+                      <p className="project-desc">{project.description}</p>
+                    </div>
+
+                    <div className="content-blocks">
+                      {project.blocks?.length > 0 && (
+                        <h4 className="section-label">Gallery & Details</h4>
+                      )}
+                      {project.blocks?.map((block, idx) => (
+                        <BlockRenderer
+                          key={idx}
+                          block={block}
+                          onMediaClick={onMediaClick}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Empty State */}
-            {selectedProject === null && (
-              <div className="project-empty">
-                <div className="empty-icon">📂</div>
-                <p>프로젝트를 선택하면 상세 내용을 볼 수 있습니다.</p>
-              </div>
-            )}
-          </>
-        )}
+          </motion.div>
+        ))}
       </div>
 
       <style>{`
         .projects-section {
-          max-width: 1200px;
+          max-width: 900px;
         }
 
         .section-title {
@@ -307,7 +167,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           font-size: 1.75rem;
           font-weight: 700;
           color: var(--text-primary);
-          margin-bottom: 24px;
+          margin-bottom: 32px;
           padding-bottom: 12px;
           border-bottom: 1px solid var(--border-light);
         }
@@ -316,260 +176,230 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           font-size: 1.5rem;
         }
 
-        .projects-layout {
-          display: grid;
-          grid-template-columns: 380px 1fr;
-          gap: 24px;
-          min-height: 500px;
-          align-items: start;
-        }
-
-        .projects-layout.mobile {
-          display: block;
-        }
-
         .projects-list {
           display: flex;
           flex-direction: column;
-          gap: 12px;
-        }
-
-        .project-item-wrapper {
-          display: flex;
-          flex-direction: column;
+          gap: 16px;
         }
 
         .project-card {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 16px;
           background: var(--bg-secondary);
           border: 1px solid var(--border-light);
-          border-radius: 10px;
-          cursor: pointer;
-          transition: all 0.2s ease;
+          border-radius: 12px;
+          overflow: hidden;
+          transition: all 0.25s ease;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .project-card:hover {
-          background: var(--bg-hover);
           border-color: var(--border-color);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        .project-card.selected {
-          background: var(--bg-tertiary);
+        .project-card.expanded {
           border-color: var(--accent-blue);
-          box-shadow: 0 0 0 1px var(--accent-blue);
+          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
         }
 
-        .project-card-content {
-          flex: 1;
-          min-width: 0;
+        .project-header {
+          padding: 16px 20px;
+          cursor: pointer;
+          background: transparent;
+          transition: background 0.15s ease;
+        }
+
+        .project-header:hover {
+          background: var(--bg-hover);
+        }
+
+        .header-main {
+          display: flex;
+          flex-direction: column;
+          gap: 8px; /* Reduced from 12px */
+        }
+
+        .title-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .title-group {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .project-icon {
+          color: var(--accent-blue);
+          flex-shrink: 0;
         }
 
         .project-title {
-          font-size: 1rem;
-          font-weight: 600;
+          font-size: 1.2rem;
+          font-weight: 700;
           color: var(--text-primary);
-          margin-bottom: 6px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          line-height: 1.3;
         }
 
-        .project-description {
-          font-size: 0.85rem;
-          color: var(--text-secondary);
-          margin-bottom: 10px;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .project-meta {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px 12px;
-          margin-bottom: 10px;
-        }
-
-        .meta-item {
+        .header-actions {
           display: flex;
           align-items: center;
-          gap: 4px;
-          font-size: 0.75rem;
-          color: var(--text-tertiary);
+          gap: 12px;
+          flex-shrink: 0;
         }
 
-        .meta-item.company-tag {
-          background: rgba(139, 92, 246, 0.15);
-          color: #a78bfa;
-          padding: 2px 8px;
-          border-radius: 4px;
-          font-weight: 500;
-        }
-
-        .project-tech-preview {
+        .quick-links {
           display: flex;
-          flex-wrap: wrap;
           gap: 6px;
         }
 
-        .tech-badge {
-          padding: 2px 8px;
+        .icon-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
           background: var(--bg-tertiary);
-          border-radius: 4px;
-          font-size: 0.7rem;
           color: var(--text-secondary);
-          font-weight: 500;
+          transition: all 0.2s ease;
+          border: 1px solid transparent;
         }
 
-        .tech-badge.more {
+        .icon-btn:hover {
           background: var(--accent-blue);
           color: white;
+          border-color: var(--accent-blue);
+          transform: translateY(-1px);
         }
 
-        .chevron-icon {
+        .expand-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 28px;
+          height: 28px;
+          border: none;
+          background: transparent;
           color: var(--text-tertiary);
-          flex-shrink: 0;
-          transition: transform 0.2s ease;
+          cursor: pointer;
+          transition: transform 0.3s ease, color 0.2s ease;
         }
 
-        .chevron-icon.rotated {
+        .expand-btn.rotated {
           transform: rotate(180deg);
           color: var(--accent-blue);
         }
 
-        /* 데스크톱 상세정보 */
-        .project-detail {
-          background: var(--bg-secondary);
-          border: 1px solid var(--border-light);
-          border-radius: 10px;
-          padding: 24px;
-          overflow-y: auto;
-          max-height: calc(100vh - 120px);
-          position: sticky;
-          top: 40px;
-          align-self: flex-start;
-        }
-
-        /* 모바일 인라인 상세정보 */
-        .mobile-project-detail {
-          overflow: hidden;
-          margin-top: 12px;
-          margin-bottom: 8px;
-        }
-
-        .mobile-detail-content {
-          padding: 20px;
-          background: var(--bg-secondary);
-          border: 1px solid var(--border-light);
-          border-left: 4px solid var(--accent-blue);
-          border-radius: 10px;
-        }
-
-        .detail-header {
+        .meta-row {
           display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 16px;
-          padding-bottom: 12px;
-          border-bottom: 1px solid var(--border-light);
+          align-items: center;
         }
 
-        .detail-title {
-          font-size: 1.1rem;
-          font-weight: 600;
+        .meta-info {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 8px;
+          font-size: 0.85rem;
+          color: var(--text-secondary);
+        }
+
+        .meta-badge {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-weight: 500;
+          font-size: 0.75rem;
+        }
+
+        .meta-badge.company {
+          background: rgba(139, 92, 246, 0.1);
+          color: #a78bfa;
+        }
+
+        .meta-text {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .meta-text.role {
+          font-weight: 500;
           color: var(--text-primary);
         }
 
-        .close-btn {
-          background: var(--bg-tertiary);
-          border: 1px solid var(--border-light);
-          border-radius: 6px;
-          padding: 6px;
-          cursor: pointer;
-          color: var(--text-secondary);
-          transition: all 0.15s ease;
+        .meta-divider {
+          color: var(--border-color);
+          font-size: 0.8rem;
         }
 
-        .close-btn:hover {
-          background: var(--accent-red);
-          color: white;
-          border-color: var(--accent-red);
-        }
-
-        .detail-links {
-          display: flex;
-          gap: 8px;
-          margin-bottom: 16px;
-        }
-
-        .detail-link {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 6px 12px;
-          background: var(--bg-tertiary);
-          border-radius: 6px;
-          font-size: 0.85rem;
-          color: var(--text-secondary);
-          text-decoration: none;
-          transition: all 0.15s ease;
-        }
-
-        .detail-link:hover {
-          background: var(--accent-blue);
-          color: white;
-        }
-
-        .detail-tech-stack {
+        .header-tech {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 16px;
+          gap: 4px;
+          margin-top: 2px;
         }
 
-        .tech-tag {
-          padding: 4px 12px;
+        .tech-chip {
+          padding: 2px 8px;
           background: var(--bg-tertiary);
-          border-radius: 5px;
-          font-size: 0.85rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
           color: var(--text-secondary);
+          border: 1px solid var(--border-light);
           font-weight: 500;
         }
 
-        .detail-blocks {
-          margin-top: 12px;
+        .project-body {
+          overflow: hidden;
+          background: var(--bg-tertiary);
+          border-top: 1px solid var(--border-light);
         }
 
-        .project-empty {
+        .body-inner {
+          padding: 20px;
+        }
+
+        .section-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: var(--text-tertiary);
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 8px;
+        }
+
+        .description-box {
+          margin-bottom: 20px;
+        }
+
+        .project-desc {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+        }
+
+        .content-blocks {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background: var(--bg-secondary);
-          border: 1px dashed var(--border-color);
-          border-radius: 10px;
-          padding: 48px;
-          text-align: center;
-          color: var(--text-tertiary);
+          gap: 16px;
         }
 
-        .empty-icon {
-          font-size: 3rem;
-          margin-bottom: 16px;
-        }
-
-        @media (max-width: 1024px) {
-          .project-card.selected {
-            border-radius: 10px;
-            box-shadow: 0 0 0 2px var(--accent-blue);
+        @media (max-width: 640px) {
+          .title-row {
+            flex-direction: column;
+            gap: 12px;
           }
 
-          .chevron-icon.rotated {
-            transform: rotate(180deg);
+          .header-actions {
+            width: 100%;
+            justify-content: space-between;
+            padding-left: 32px;
           }
         }
       `}</style>

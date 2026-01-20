@@ -54,7 +54,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
               className="block-image"
               whileHover={{ scale: 1.02 }}
               onClick={() => onMediaClick?.({ type: 'image', src: imageSrc, caption: block.caption })}
-              loading="lazy"
+              referrerPolicy="no-referrer"
             />
             {block.caption && (
               <p className="media-caption">{block.caption}</p>
@@ -179,7 +179,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           font-size: 1.25rem;
           font-weight: 600;
           color: var(--text-primary);
-          margin-top: 20px;
+          margin-top: 16px;
           margin-bottom: 8px;
         }
 
@@ -187,7 +187,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           font-size: 1.1rem;
           font-weight: 600;
           color: var(--text-primary);
-          margin-top: 16px;
+          margin-top: 12px;
           margin-bottom: 6px;
         }
 
@@ -233,7 +233,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
         }
 
         .block-media {
-          margin: 16px 0;
+          margin: 12px 0;
         }
 
         .block-image {
