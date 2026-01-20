@@ -385,12 +385,34 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         .content-blocks {
-          display: flex;
-          flex-direction: column;
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
           gap: 16px;
+          align-items: start;
         }
 
-        @media (max-width: 640px) {
+        /* 기본적으로 모든 블록은 전체 너비를 차지 */
+        .content-blocks .block-wrapper {
+          grid-column: 1 / -1;
+          margin-bottom: 0 !important;
+        }
+
+        /* 이미지와 비디오만 2분할 (PC) */
+        .content-blocks .block-wrapper.type-image,
+        .content-blocks .block-wrapper.type-video {
+          grid-column: span 1;
+        }
+
+        @media (max-width: 768px) {
+          .content-blocks {
+            grid-template-columns: 1fr;
+          }
+          
+          .content-blocks .block-wrapper.type-image,
+          .content-blocks .block-wrapper.type-video {
+            grid-column: 1 / -1;
+          }
+
           .title-row {
             flex-direction: column;
             gap: 12px;

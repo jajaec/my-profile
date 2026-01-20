@@ -156,7 +156,7 @@ const BlockRenderer = ({ block, onMediaClick }) => {
 
   return (
     <motion.div
-      className="block-wrapper"
+      className={`block-wrapper type-${block.type}`}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
