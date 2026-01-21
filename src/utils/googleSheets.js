@@ -303,8 +303,8 @@ export function transformProjects(data) {
         blocks.push({ type: 'callout', icon, value: highlight });
       }
       
-      // 이미지 (파이프로 구분된 복수 이미지 지원)
-      const imageUrls = splitByPipe(row['이미지URL'] || '');
+      // 이미지 (파이프 또는 줄바꿈으로 구분된 복수 이미지 지원)
+      const imageUrls = (row['이미지URL'] || '').split(/[|\n]/).map(url => url.trim()).filter(url => url);
       if (imageUrls.length > 0) {
         blocks.push({ type: 'heading', value: '결과물' });
         imageUrls.forEach((url, idx) => {
@@ -316,8 +316,8 @@ export function transformProjects(data) {
         });
       }
       
-      // 영상 (파이프로 구분된 복수 영상 지원)
-      const videoUrls = splitByPipe(row['영상URL'] || '');
+      // 영상 (파이프 또는 줄바꿈으로 구분된 복수 영상 지원)
+      const videoUrls = (row['영상URL'] || '').split(/[|\n]/).map(url => url.trim()).filter(url => url);
       if (videoUrls.length > 0) {
         if (imageUrls.length === 0) {
           blocks.push({ type: 'heading', value: '결과물' });
