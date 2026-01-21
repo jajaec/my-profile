@@ -285,10 +285,15 @@ export function transformProjects(data) {
       }
       
       // 주요 기능 블록
-      const features = splitByPipe(row['주요기능'] || '');
-      if (features.length > 0) {
-        blocks.push({ type: 'heading', value: '주요 기능' });
-        blocks.push({ type: 'list', items: features });
+      const featuresRaw = row['주요기능'] || '';
+      if (featuresRaw) {
+        // 줄바꿈으로 분리하여 리스트 아이템으로 변환
+        const featureItems = featuresRaw.split(/\r?\n/).map(item => item.trim()).filter(item => item);
+        
+        if (featureItems.length > 0) {
+          blocks.push({ type: 'heading', value: '주요 기능' });
+          blocks.push({ type: 'list', items: featureItems });
+        }
       }
       
       // 핵심 포인트 (callout)
