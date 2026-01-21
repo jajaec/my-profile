@@ -35,7 +35,17 @@ const BlockRenderer = ({ block, onMediaClick }) => {
         return (
           <div className="block-callout">
             <span className="callout-icon">{block.icon || '💡'}</span>
-            <span className="callout-text">{block.value}</span>
+            <div className="callout-content">
+              {block.items ? (
+                <ul className="callout-list">
+                  {block.items.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="callout-text">{block.value}</p>
+              )}
+            </div>
           </div>
         );
 
@@ -225,11 +235,33 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           flex-shrink: 0;
         }
 
+        .callout-content {
+          flex: 1;
+        }
+
+        .callout-list {
+          margin: 0;
+          padding-left: 20px;
+          list-style-type: disc;
+        }
+
+        .callout-list li {
+          margin-bottom: 4px;
+          color: var(--text-primary);
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+
+        .callout-list li:last-child {
+          margin-bottom: 0;
+        }
+
         .callout-text {
           color: var(--text-primary);
           font-size: 0.95rem;
           line-height: 1.6;
           white-space: pre-line;
+          margin: 0;
         }
 
         .block-media {
@@ -243,6 +275,9 @@ const BlockRenderer = ({ block, onMediaClick }) => {
           cursor: pointer;
           box-shadow: var(--shadow-sm);
           transition: box-shadow 0.2s ease;
+          aspect-ratio: 16/9;
+          object-fit: cover;
+          background: var(--bg-secondary);
         }
 
         .block-image:hover {
@@ -251,12 +286,14 @@ const BlockRenderer = ({ block, onMediaClick }) => {
 
         .video-wrapper {
           position: relative;
-          padding-bottom: 56.25%;
-          height: 0;
+          width: 100%;
+          aspect-ratio: 16/9;
+          padding-bottom: 0; /* Use aspect-ratio instead of padding hack */
           overflow: hidden;
           border-radius: 8px;
           cursor: pointer;
           box-shadow: var(--shadow-sm);
+          background: var(--bg-secondary);
         }
 
         .block-video {

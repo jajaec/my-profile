@@ -10,7 +10,6 @@
   padding: 40px 60px;
   background: var(--bg-primary);
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 .section-wrapper {

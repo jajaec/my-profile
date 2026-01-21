@@ -17,8 +17,8 @@ const ProjectsSection = ({ data, onMediaClick }) => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
   };
 
   const toggleExpand = (idx) => {
@@ -186,7 +186,6 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           background: var(--bg-secondary);
           border: 1px solid var(--border-light);
           border-radius: 12px;
-          overflow: hidden;
           transition: all 0.25s ease;
           box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
@@ -202,10 +201,20 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         .project-header {
+          position: sticky;
+          top: 0;
+          z-index: 10;
           padding: 16px 20px;
           cursor: pointer;
-          background: transparent;
+          background: var(--bg-secondary);
           transition: background 0.15s ease;
+          border-bottom: 1px solid transparent;
+          border-radius: 12px;
+        }
+
+        .project-card.expanded .project-header {
+          border-bottom-color: var(--border-light);
+          border-radius: 12px 12px 0 0;
         }
 
         .project-header:hover {
@@ -359,6 +368,7 @@ const ProjectsSection = ({ data, onMediaClick }) => {
           overflow: hidden;
           background: var(--bg-tertiary);
           border-top: 1px solid var(--border-light);
+          border-radius: 0 0 12px 12px;
         }
 
         .body-inner {

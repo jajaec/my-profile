@@ -297,10 +297,14 @@ export function transformProjects(data) {
       }
       
       // 핵심 포인트 (callout)
-      const highlight = row['핵심포인트'] || '';
+      const highlightRaw = row['핵심포인트'] || '';
       const icon = row['아이콘'] || '💡';
-      if (highlight) {
-        blocks.push({ type: 'callout', icon, value: highlight });
+      if (highlightRaw) {
+        const highlightItems = highlightRaw.split(/\r?\n/).map(item => item.trim()).filter(item => item);
+        
+        if (highlightItems.length > 0) {
+          blocks.push({ type: 'callout', icon, items: highlightItems });
+        }
       }
       
       // 이미지 (파이프 또는 줄바꿈으로 구분된 복수 이미지 지원)
