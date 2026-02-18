@@ -196,6 +196,7 @@ const AboutSection = ({ data }) => {
           margin: 0;
           padding-left: 16px;
           border-left: 3px solid var(--accent-blue);
+          white-space: pre-line;
         }
 
         .intro-text:first-child {
