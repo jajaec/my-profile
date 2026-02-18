@@ -17,6 +17,7 @@ import {
   PieChart,
   ArrowUp,
   ArrowDown,
+  Network,
 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
 
@@ -125,6 +126,7 @@ const AnalyticsSection = () => {
     const sectionCounts = {};
     const dailyCounts = {};
     const hourCounts = {};
+    const ipCounts = {};
     const deviceCounts = { desktop: 0, mobile: 0, tablet: 0 };
     const uniqueSessions = new Set();
 
@@ -148,6 +150,12 @@ const AnalyticsSection = () => {
       // 시간대별
       if (parsed.hour !== null) {
         hourCounts[parsed.hour] = (hourCounts[parsed.hour] || 0) + 1;
+      }
+
+      // IP 주소별 집계
+      const ip = log.ip || 'unknown';
+      if (ip !== 'unknown') {
+        ipCounts[ip] = (ipCounts[ip] || 0) + 1;
       }
 
       // 디바이스 분류
@@ -182,12 +190,19 @@ const AnalyticsSection = () => {
     const peakHour = Object.entries(hourCounts)
       .sort((a, b) => b[1] - a[1])[0];
 
+    // IP 주소별 접근 횟수 (상위 10개)
+    const topIPs = Object.entries(ipCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+
     return {
       totalViews: logs.length,
       uniqueVisitors: uniqueSessions.size,
       topSections,
       dailyData,
       deviceCounts,
+      topIPs,
+      uniqueIPs: Object.keys(ipCounts).length,
       peakHour: peakHour ? `${peakHour[0]}시` : '-',
       averageDaily: dailyData.length > 0 
         ? Math.round(dailyData.reduce((a, b) => a + b.count, 0) / dailyData.length)
@@ -549,6 +564,41 @@ const AnalyticsSection = () => {
               </div>
             </div>
           </div>
+
+            {/* IP 주소별 접근 횟수 */}
+            <div className="chart-card ip-chart">
+              <h3 className="chart-title">
+                <Network size={18} />
+                IP 주소별 접근 횟수 TOP 10
+                <span className="ip-unique-badge">고유 IP: {analytics.uniqueIPs}</span>
+              </h3>
+              <div className="ip-list">
+                {analytics.topIPs.map(([ip, count], idx) => {
+                  const maxCount = analytics.topIPs[0][1];
+                  const percentage = (count / maxCount) * 100;
+                  return (
+                    <div key={ip} className="ip-item">
+                      <div className="ip-label">
+                        <span className="ip-rank">#{idx + 1}</span>
+                        <span className="ip-address">{ip}</span>
+                        <span className="ip-count">{count}회</span>
+                      </div>
+                      <div className="ip-bar-track">
+                        <motion.div
+                          className="ip-bar-fill"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${percentage}%` }}
+                          transition={{ delay: idx * 0.08, duration: 0.5 }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+                {analytics.topIPs.length === 0 && (
+                  <p className="no-ip-data">IP 데이터가 없습니다.</p>
+                )}
+              </div>
+            </div>
 
           {/* 최근 로그 */}
           <div className="recent-logs">
@@ -923,6 +973,78 @@ const analyticsStyles = `
     background: #f59e0b;
   }
 
+  /* IP Chart */
+  .ip-chart {
+    grid-column: span 2;
+  }
+
+  .ip-unique-badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    background: var(--bg-tertiary);
+    padding: 2px 10px;
+    border-radius: 12px;
+  }
+
+  .ip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ip-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ip-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+  }
+
+  .ip-rank {
+    color: var(--text-tertiary);
+    width: 28px;
+    font-weight: 600;
+  }
+
+  .ip-address {
+    color: var(--text-primary);
+    font-family: monospace;
+    font-size: 0.82rem;
+    flex: 1;
+  }
+
+  .ip-count {
+    color: #10b981;
+    font-weight: 600;
+  }
+
+  .ip-bar-track {
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .ip-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+    border-radius: 4px;
+  }
+
+  .no-ip-data {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 20px;
+  }
+
   /* Recent Logs */
   .recent-logs {
     background: var(--bg-secondary);
@@ -1180,6 +1302,10 @@ const analyticsStyles = `
     }
     
     .chart-card.device-chart {
+      grid-column: span 1;
+    }
+
+    .ip-chart {
       grid-column: span 1;
     }
     
