@@ -120,7 +120,7 @@ export async function fetchSheetData(sheetName) {
  */
 export function splitByPipe(str) {
   if (!str) return [];
-  return str.split('|').map(item => item.trim()).filter(item => item);
+  return str.split(/\||\r?\n/).map(item => item.trim()).filter(item => item);
 }
 
 /**
