@@ -527,7 +527,7 @@ export function transformInternalTools(data) {
 
 /**
  * Resources 시트 데이터를 기존 JSON 형식으로 변환
- * A~I 컬럼 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 제목(D), 설명(E), 문서URL(F), 태그(G), 작성일(H), 표시여부(I)
+ * A~J 컬럼 사용: 카테고리(A), 카테고리아이콘(B), 카테고리색상(C), 구분(D), 제목(E), 설명(F), 문서URL(G), 태그(H), 작성일(I), 표시여부(J)
  */
 export function transformResources(data) {
   if (!data || data.length === 0) return { title: 'Resources', description: '', categories: [] };
@@ -546,7 +546,6 @@ export function transformResources(data) {
       return true;
     })
     .forEach(row => {
-      // A~I 컬럼 사용 (J 컬럼 이후는 무시)
       const category = row['카테고리'] || '';
       const icon = row['카테고리아이콘'] || '';
       const color = row['카테고리색상'] || '#8b5cf6';
@@ -561,6 +560,7 @@ export function transformResources(data) {
         docUrl: row['문서URL'] || '',
         tags: splitByComma(row['태그'] || ''),
         createdDate: row['작성일'] || '',
+        type: row['구분'] || '',
       });
     });
   

@@ -10,11 +10,63 @@
   padding: 40px 60px;
   background: var(--bg-primary);
   min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
 .section-wrapper {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+.scroll-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.scroll-section {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.scroll-section:last-child {
+  border-bottom: none;
+  padding-bottom: 80px;
+}
+
+.scroll-section:first-child {
+  padding-top: 0;
+}
+
+.scroll-section:first-child .scroll-section-header {
+  margin-top: 0;
+}
+
+.scroll-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  background: var(--bg-secondary);
+  border-left: 5px solid var(--accent-blue);
+  border-radius: 0 8px 8px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.scroll-section-header svg {
+  width: 28px;
+  height: 28px;
+  color: var(--accent-blue);
+  flex-shrink: 0;
+}
+
+/* 스크롤 모드에서 섹션 컴포넌트 내부의 .section-title 숨김 (scroll-section-header로 대체) */
+.scroll-section .section-title {
+  display: none;
 }
 
 /* Responsive */
@@ -29,25 +81,4 @@
     margin-left: 0;
     padding: 80px 20px 40px;
   }
-}
-
-/* Page transitions */
-.section-enter {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.section-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 0.3s ease;
-}
-
-.section-exit {
-  opacity: 1;
-}
-
-.section-exit-active {
-  opacity: 0;
-  transition: opacity 0.2s ease;
 }

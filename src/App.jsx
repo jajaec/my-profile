@@ -1,5 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import {
+  User, Code2, Briefcase, FolderGit2,
+  GraduationCap, Award, Library, Rocket,
+} from 'lucide-react';
 
 import { ThemeProvider } from './context/ThemeContext';
 import Sidebar from './components/Sidebar';
@@ -22,6 +26,33 @@ import { useAllSheetData } from './hooks/useSheetData';
 import { logPageView, logInitialVisit } from './utils/logger';
 
 import './App.css';
+
+// 스크롤 모드에서 렌더링할 섹션 순서 (Analytics 제외)
+const scrollSections = [
+  'about',
+  'techStack',
+  'experience',
+  'projects',
+  'education',
+  'certifications',
+  'resources',
+  'webApps',
+];
+
+// 별도 페이지로 렌더링할 섹션
+const pageSections = ['analytics', 'bookmarks'];
+
+// 섹션 메타 정보 (헤더 타이틀 + 아이콘)
+const sectionMeta = {
+  about: { label: 'About', icon: User },
+  techStack: { label: 'Tech Stack', icon: Code2 },
+  experience: { label: 'Experience', icon: Briefcase },
+  projects: { label: 'Projects', icon: FolderGit2 },
+  education: { label: 'Education', icon: GraduationCap },
+  certifications: { label: 'Certifications', icon: Award },
+  resources: { label: 'Resources', icon: Library },
+  webApps: { label: 'Live Demo', icon: Rocket },
+};
 
 // URL 파라미터에서 tool 값 가져오기
 function getToolFromUrl() {
@@ -75,9 +106,12 @@ function ToolPopup({ toolId }) {
 
 function AppContent() {
   const [activeSection, setActiveSection] = useState('about');
+  const [isPageMode, setIsPageMode] = useState(false);
   const [modalContent, setModalContent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [popupTool, setPopupTool] = useState(null);
+  const isScrollingRef = useRef(false);
+  const mainContentRef = useRef(null);
   
   // Google Sheets에서 데이터 가져오기
   const { data, loading, error } = useAllSheetData();
@@ -91,6 +125,72 @@ function AppContent() {
       logInitialVisit();
     }
   }, []);
+
+  // IntersectionObserver로 현재 보이는 섹션 감지
+  useEffect(() => {
+    if (isPageMode || loading || error || !data) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (isScrollingRef.current) return;
+        
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id.replace('section-', '');
+            setActiveSection(sectionId);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0,
+      }
+    );
+
+    // 각 섹션 요소를 관찰
+    scrollSections.forEach((id) => {
+      const el = document.getElementById(`section-${id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [isPageMode, loading, error, data]);
+
+  const handleSectionChange = useCallback((section) => {
+    logPageView(section);
+
+    if (pageSections.includes(section)) {
+      setIsPageMode(true);
+      setActiveSection(section);
+      return;
+    }
+
+    // 페이지 모드에서 스크롤 모드로 복귀
+    if (isPageMode) {
+      setIsPageMode(false);
+      setActiveSection(section);
+      // 모드 전환 후 스크롤은 다음 렌더 사이클에서 실행
+      setTimeout(() => {
+        const el = document.getElementById(`section-${section}`);
+        if (el) {
+          isScrollingRef.current = true;
+          el.scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => { isScrollingRef.current = false; }, 1000);
+        }
+      }, 100);
+      return;
+    }
+
+    // 스크롤 모드에서 메뉴 클릭 → 스크롤 이동
+    setActiveSection(section);
+    const el = document.getElementById(`section-${section}`);
+    if (el) {
+      isScrollingRef.current = true;
+      el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => { isScrollingRef.current = false; }, 1000);
+    }
+  }, [isPageMode]);
 
   const handleMediaClick = (content) => {
     setModalContent(content);
@@ -193,35 +293,8 @@ function AppContent() {
     );
   }
 
-  const renderSection = () => {
-    const sectionProps = {
-      onMediaClick: handleMediaClick,
-    };
-
-    switch (activeSection) {
-      case 'about':
-        return <AboutSection data={data.about} {...sectionProps} />;
-      case 'techStack':
-        return <TechStackSection data={data.techStack} />;
-      case 'experience':
-        return <ExperienceSection data={data.experience} />;
-      case 'projects':
-        return <ProjectsSection data={data.projects} {...sectionProps} />;
-      case 'webApps':
-        return <WebAppsSection data={data.liveDemo} />;
-      case 'education':
-        return <EducationSection data={data.education} />;
-      case 'certifications':
-        return <CertificationsSection data={data.certifications} />;
-      case 'resources':
-        return <ResourcesSection data={data.resources} />;
-      case 'bookmarks':
-        return <BookmarksSection data={data.bookmarks} />;
-      case 'analytics':
-        return <AnalyticsSection />;
-      default:
-        return <AboutSection data={data.about} {...sectionProps} />;
-    }
+  const sectionProps = {
+    onMediaClick: handleMediaClick,
   };
 
   return (
@@ -229,25 +302,40 @@ function AppContent() {
       <Sidebar
         profile={data.profile}
         activeSection={activeSection}
-        onSectionChange={(section) => {
-          setActiveSection(section);
-          logPageView(section); // 섹션 변경 로그 기록
-        }}
+        onSectionChange={handleSectionChange}
       />
 
-      <main className="main-content">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeSection}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="section-wrapper"
-          >
-            {renderSection()}
-          </motion.div>
-        </AnimatePresence>
+      <main className="main-content" ref={mainContentRef}>
+        {isPageMode ? (
+          <div className="section-wrapper">
+            {activeSection === 'analytics' && <AnalyticsSection />}
+            {activeSection === 'bookmarks' && <BookmarksSection data={data.bookmarks} />}
+          </div>
+        ) : (
+          <div className="scroll-content">
+            {scrollSections.map((sectionId) => {
+              const meta = sectionMeta[sectionId];
+              const Icon = meta.icon;
+              return (
+                <div key={sectionId} id={`section-${sectionId}`} className="scroll-section">
+                  <div className="scroll-section-header">
+                    <Icon size={20} />
+                    <span>{meta.label}</span>
+                  </div>
+                  {sectionId === 'about' && <AboutSection data={data.about} {...sectionProps} />}
+                  {sectionId === 'techStack' && <TechStackSection data={data.techStack} />}
+                  {sectionId === 'experience' && <ExperienceSection data={data.experience} />}
+                  {sectionId === 'projects' && <ProjectsSection data={data.projects} {...sectionProps} />}
+                  {sectionId === 'education' && <EducationSection data={data.education} />}
+                  {sectionId === 'certifications' && <CertificationsSection data={data.certifications} />}
+                  {sectionId === 'resources' && <ResourcesSection data={data.resources} />}
+                  {sectionId === 'webApps' && <WebAppsSection data={data.liveDemo} />}
+                </div>
+              );
+            })}
+
+          </div>
+        )}
       </main>
 
       <ExpansionModal
@@ -268,4 +356,3 @@ function App() {
 }
 
 export default App;
-

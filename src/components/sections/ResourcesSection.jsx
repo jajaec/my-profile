@@ -115,7 +115,12 @@ const ResourcesSection = ({ data }) => {
                       <FileText size={18} />
                     </div>
                     <div className="resource-info">
-                      <h4 className="resource-title">{item.title}</h4>
+                      <h4 className="resource-title">
+                        {item.type && (
+                          <span className="resource-type-badge" data-type={item.type}>{item.type}</span>
+                        )}
+                        {item.title}
+                      </h4>
                       <p className="resource-description">{item.description}</p>
                       <div className="resource-meta">
                         {item.createdDate && (
@@ -288,6 +293,30 @@ const ResourcesSection = ({ data }) => {
           font-weight: 600;
           color: var(--text-primary);
           margin-bottom: 4px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .resource-type-badge {
+          display: inline-block;
+          font-size: 0.65rem;
+          font-weight: 600;
+          padding: 2px 8px;
+          background: #6b7280; /* 기본값: 회색 */
+          color: #fff;
+          border-radius: 4px;
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
+
+        .resource-type-badge[data-type="교육"] {
+          background: #3b82f6; /* 파랑 */
+        }
+
+        .resource-type-badge[data-type="발표"] {
+          background: #ef4444; /* 빨강 */
         }
 
         .resource-description {
