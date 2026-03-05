@@ -83,9 +83,9 @@ const TechStackSection = ({ data }) => {
     });
 
     return [
-      { radius: 60, duration: 20, items: inner },
-      { radius: 105, duration: 30, items: middle },
-      { radius: 150, duration: 40, items: outer },
+      { radius: 60, duration: 20, opacity: 1, items: inner },
+      { radius: 105, duration: 30, opacity: 0.55, items: middle },
+      { radius: 150, duration: 40, opacity: 0.25, items: outer },
     ];
   };
 
@@ -158,7 +158,10 @@ const TechStackSection = ({ data }) => {
                                 className="planet-unrotate"
                                 style={{ transform: `rotate(-${angle}deg)` }}
                               >
-                                <div className="planet-content">
+                                <div 
+                                  className="planet-content"
+                                  style={{ opacity: orbit.opacity }}
+                                >
                                   <div className="planet-dot" />
                                   <span className="planet-label" title={`${skill.name} (${skill.level}%)`}>
                                     {skill.name}
@@ -287,12 +290,21 @@ const TechStackSection = ({ data }) => {
           position: absolute;
           top: 50%;
           left: 50%;
-          border: 1px dashed rgba(255, 255, 255, 0.1);
           border-radius: 50%;
           animation-name: orbit-spin;
           animation-timing-function: linear;
           animation-iteration-count: infinite;
           z-index: 5;
+        }
+
+        .orbit-track::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          border-radius: 50%;
+          border: 1px dashed var(--text-tertiary);
+          opacity: 0.35;
+          pointer-events: none;
         }
 
         .planet-pivot {
@@ -338,6 +350,7 @@ const TechStackSection = ({ data }) => {
           border-color: var(--accent-blue);
           transform: translate(-50%, -50%) scale(1.1);
           z-index: 20;
+          opacity: 1 !important;
         }
 
         .planet-dot {
