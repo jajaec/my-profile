@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, MapPin, Calendar, Briefcase } from 'lucide-react';
 
 const ExperienceSection = ({ data }) => {
-  const [expandedIdx, setExpandedIdx] = useState(0);
+  const [expandedIdx, setExpandedIdx] = useState(-1);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -55,8 +55,19 @@ const ExperienceSection = ({ data }) => {
                 aria-expanded={expandedIdx === idx}
               >
                 <div className="exp-header-main">
-                  <h3 className="company-name">{exp.company}</h3>
-                  <span className="exp-role">{exp.role}</span>
+                  <div className="exp-title-row">
+                    <h3 className="company-name">{exp.company}</h3>
+                    <span className="exp-role">{exp.role}</span>
+                  </div>
+                  {exp.techStack && (
+                    <div className="exp-tech-row">
+                      {exp.techStack.map((tech, techIdx) => (
+                        <span key={techIdx} className="tech-tag-sm">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="exp-header-meta">
                   <span className="exp-period">
@@ -92,19 +103,6 @@ const ExperienceSection = ({ data }) => {
                         ))}
                       </ul>
                     </div>
-
-                    {exp.techStack && (
-                      <div className="exp-tech">
-                        <h4 className="tech-title">기술 스택</h4>
-                        <div className="tech-tags">
-                          {exp.techStack.map((tech, techIdx) => (
-                            <span key={techIdx} className="tech-tag">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -205,25 +203,50 @@ const ExperienceSection = ({ data }) => {
         .exp-header-main {
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 12px;
+          flex: 1;
+        }
+
+        .exp-title-row {
+          display: flex;
+          align-items: baseline;
+          flex-wrap: wrap;
+          gap: 12px;
         }
 
         .company-name {
           font-size: 1.1rem;
           font-weight: 600;
           color: var(--text-primary);
+          margin: 0;
         }
 
         .exp-role {
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           color: var(--accent-blue);
           font-weight: 500;
         }
 
+        .exp-tech-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 6px;
+        }
+
+        .tech-tag-sm {
+          font-size: 0.75rem;
+          font-weight: 500; /* Subtle text */
+          padding: 4px 10px;
+          border-radius: 4px;
+          background: var(--bg-tertiary);
+          color: var(--text-secondary);
+        }
+
         .exp-header-meta {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           gap: 12px;
+          padding-top: 2px;
         }
 
         .exp-period {
@@ -252,13 +275,11 @@ const ExperienceSection = ({ data }) => {
           font-size: 0.95rem;
           color: var(--text-secondary);
           margin-bottom: 16px;
-          padding-top: 4px;
-          border-top: 1px solid var(--border-light);
           padding-top: 16px;
+          border-top: 1px solid var(--border-light);
         }
 
-        .tasks-title,
-        .tech-title {
+        .tasks-title {
           font-size: 0.85rem;
           font-weight: 600;
           color: var(--text-tertiary);
@@ -285,26 +306,6 @@ const ExperienceSection = ({ data }) => {
         .task-bullet {
           color: var(--accent-blue);
           flex-shrink: 0;
-        }
-
-        .exp-tech {
-          padding-top: 12px;
-          border-top: 1px solid var(--border-light);
-        }
-
-        .tech-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .tech-tag {
-          padding: 4px 10px;
-          background: var(--bg-tertiary);
-          border-radius: 4px;
-          font-size: 0.8rem;
-          color: var(--text-secondary);
-          font-weight: 500;
         }
 
         @media (max-width: 768px) {

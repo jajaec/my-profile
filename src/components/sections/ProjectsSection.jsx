@@ -4,7 +4,7 @@ import { Calendar, User, ExternalLink, Github, ChevronDown, Building2, FolderKan
 import BlockRenderer from '../BlockRenderer';
 
 const ProjectsSection = ({ data, onMediaClick }) => {
-  const [expandedIdx, setExpandedIdx] = useState(0);
+  const [expandedIdx, setExpandedIdx] = useState(-1);
 
   const containerVariants = {
     hidden: { opacity: 0 },
