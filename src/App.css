@@ -23,6 +23,13 @@
   margin: 0 auto;
 }
 
+/* 모든 메뉴의 타이틀 박스와 내용 박스의 크기 너비를 일치시키기 위해
+   각 컴포넌트 내부의 고정 max-width 무시하고 100% 채우게 함 */
+.scroll-section .section,
+.section-wrapper .section {
+  max-width: 100% !important;
+}
+
 .scroll-section {
   padding-top: 20px;
   padding-bottom: 40px;
