@@ -1,36 +1,23 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  User,
-  Code2,
-  Briefcase,
-  FolderGit2,
-  GraduationCap,
-  Award,
-  Mail,
-  Sun,
-  Moon,
-  Menu,
-  X,
-  Rocket,
-  Bookmark,
-  Library,
-  BarChart3,
+  User, Code2, Briefcase, FolderGit2, GraduationCap, Award, Mail, Sun, Moon, Menu, X, Rocket, Bookmark, Library, BarChart3, Target
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { getDriveUrl } from '../utils/helpers';
 
 const menuItems = [
   { id: 'about', label: 'About', icon: User },
-  { id: 'techStack', label: 'Tech Stack', icon: Code2 },
+  { id: 'keyAchievements', label: 'Key Expertise', icon: Target },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
+  { id: 'techStack', label: 'Tech Stack', icon: Code2 },
   { id: 'education', label: 'Education', icon: GraduationCap },
   { id: 'certifications', label: 'Certifications', icon: Award },
   { id: 'resources', label: 'Resources', icon: Library },
-  { id: 'webApps', label: 'Live Demo', icon: Rocket },
-  { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark },
-  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+  { id: 'webApps', label: 'Playground', icon: Rocket },
+  { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark, bottomAction: true },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3, bottomAction: true },
 ];
 
 const Sidebar = ({ profile, activeSection, onSectionChange }) => {
@@ -71,7 +58,7 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
 
       {/* Navigation Menu */}
       <nav className="sidebar-nav">
-        {menuItems.map((item) => {
+        {menuItems.filter(i => !i.bottomAction).map((item) => {
           const Icon = item.icon;
           const isActive = activeSection === item.id;
           
@@ -97,8 +84,26 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
         })}
       </nav>
 
-      {/* Theme Toggle */}
+      {/* Theme Toggle & Bottom Actions */}
       <div className="sidebar-footer">
+        {menuItems.filter(i => i.bottomAction).map((item) => {
+          const Icon = item.icon;
+          const isActive = activeSection === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => {
+                onSectionChange(item.id);
+                setIsMobileOpen(false);
+              }}
+              className={`nav-item ${isActive ? 'active' : ''}`}
+            >
+              <Icon size={18} />
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
+        <div style={{ height: '16px' }} />
         <button
           onClick={toggleTheme}
           className="theme-toggle"

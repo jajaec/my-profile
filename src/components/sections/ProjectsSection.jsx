@@ -183,21 +183,21 @@ const ProjectsSection = ({ data, onMediaClick }) => {
         }
 
         .project-card {
-          background: var(--bg-secondary);
+          background: var(--bg-tertiary);
           border: 1px solid var(--border-light);
-          border-radius: 12px;
-          transition: all 0.25s ease;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+          border-radius: 14px;
+          transition: all 0.3s ease;
+          overflow: hidden;
         }
 
         .project-card:hover {
-          border-color: var(--border-color);
-          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+          border-color: var(--accent-blue);
+          box-shadow: var(--shadow-md);
         }
 
         .project-card.expanded {
           border-color: var(--accent-blue);
-          box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+          box-shadow: var(--shadow-md);
         }
 
         .project-header {

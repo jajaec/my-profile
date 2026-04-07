@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { Sparkles, Target, Code2, TrendingUp, Briefcase, Lightbulb } from 'lucide-react';
+import { Download, Sparkles, Target, Code2, TrendingUp, Briefcase, Lightbulb } from 'lucide-react';
 
-const AboutSection = ({ data }) => {
+const AboutSection = ({ data, profile }) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -59,10 +59,27 @@ const AboutSection = ({ data }) => {
       initial="hidden"
       animate="visible"
     >
-      <motion.h2 className="section-title" variants={itemVariants}>
-        <span className="title-icon">👋</span>
-        {data.title}
-      </motion.h2>
+      <div className="about-header-row">
+        <motion.h2 className="section-title" variants={itemVariants}>
+          <span className="title-icon">👋</span>
+          {data.title}
+        </motion.h2>
+        
+        {profile?.resumeLink && (
+          <motion.a 
+            href={profile.resumeLink}
+            className="resume-download-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            variants={itemVariants}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Download size={18} />
+            <span>이력서 다운로드</span>
+          </motion.a>
+        )}
+      </div>
 
       {sections.map((section, sectionIdx) => {
         const isListSection = section.items.length > 0;

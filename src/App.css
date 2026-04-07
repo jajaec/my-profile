@@ -71,9 +71,47 @@
   flex-shrink: 0;
 }
 
-/* 스크롤 모드에서 섹션 컴포넌트 내부의 .section-title 숨김 (scroll-section-header로 대체) */
-.scroll-section .section-title {
+/* 스크롤 모드에서 다른 섹션들은 scroll-section-header를 쓰므로 내부 .section-title 숨김.
+   하지만 About과 Key Achievements처럼 커스텀이 필요한 곳은 남겨둔다. */
+.scroll-section:not(#section-about):not(#section-keyAchievements) .section-title {
   display: none;
+}
+
+.about-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* 모바일 대응 */
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.about-header-row .section-title {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.resume-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--accent-blue), #6366f1);
+  color: white !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.resume-download-btn:hover {
+  box-shadow: var(--shadow-md);
 }
 
 /* Responsive */

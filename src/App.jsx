@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   User, Code2, Briefcase, FolderGit2,
-  GraduationCap, Award, Library, Rocket,
+  GraduationCap, Award, Library, Rocket, Target
 } from 'lucide-react';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar';
 import ExpansionModal from './components/ExpansionModal';
 
 import AboutSection from './components/sections/AboutSection';
+import KeyAchievementsSection from './components/sections/KeyAchievementsSection';
 import TechStackSection from './components/sections/TechStackSection';
 import ExperienceSection from './components/sections/ExperienceSection';
 import ProjectsSection from './components/sections/ProjectsSection';
@@ -27,31 +28,33 @@ import { logPageView, logInitialVisit } from './utils/logger';
 
 import './App.css';
 
-// 스크롤 모드에서 렌더링할 섹션 순서 (Analytics 제외)
+// 스크롤 모드에서 렌더링할 섹션 순서 (Analytics 및 Bookmarks는 Sidebar에서 링크로 하지만, 메인은 스크롤 뷰)
 const scrollSections = [
   'about',
-  'techStack',
+  'keyAchievements',
   'experience',
   'projects',
+  'techStack',
   'education',
   'certifications',
   'resources',
   'webApps',
 ];
 
-// 별도 페이지로 렌더링할 섹션
-const pageSections = ['analytics', 'bookmarks'];
+// 별도 페이지로 렌더링할 섹션 (가장 하단 메뉴)
+const pageSections = ['bookmarks', 'analytics'];
 
 // 섹션 메타 정보 (헤더 타이틀 + 아이콘)
 const sectionMeta = {
   about: { label: 'About', icon: User },
+  keyAchievements: { label: 'Key Expertise', icon: Target },
   techStack: { label: 'Tech Stack', icon: Code2 },
   experience: { label: 'Experience', icon: Briefcase },
   projects: { label: 'Projects', icon: FolderGit2 },
   education: { label: 'Education', icon: GraduationCap },
   certifications: { label: 'Certifications', icon: Award },
   resources: { label: 'Resources', icon: Library },
-  webApps: { label: 'Live Demo', icon: Rocket },
+  webApps: { label: 'Playground', icon: Rocket },
 };
 
 // URL 파라미터에서 tool 값 가져오기
@@ -318,11 +321,14 @@ function AppContent() {
               const Icon = meta.icon;
               return (
                 <div key={sectionId} id={`section-${sectionId}`} className="scroll-section">
-                  <div className="scroll-section-header">
-                    <Icon size={20} />
-                    <span>{meta.label}</span>
-                  </div>
-                  {sectionId === 'about' && <AboutSection data={data.about} {...sectionProps} />}
+                  {!['about', 'keyAchievements'].includes(sectionId) && (
+                    <div className="scroll-section-header">
+                      <Icon size={20} />
+                      <span>{meta.label}</span>
+                    </div>
+                  )}
+                  {sectionId === 'about' && <AboutSection data={data.about} profile={data.profile} {...sectionProps} />}
+                  {sectionId === 'keyAchievements' && <KeyAchievementsSection />}
                   {sectionId === 'techStack' && <TechStackSection data={data.techStack} />}
                   {sectionId === 'experience' && <ExperienceSection data={data.experience} />}
                   {sectionId === 'projects' && <ProjectsSection data={data.projects} {...sectionProps} />}

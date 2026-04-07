@@ -69,9 +69,9 @@ const TechStackSection = ({ data }) => {
 
   // 숙련도 구분 함수
   const getProficiencyLabel = (level) => {
-    if (level >= 67) return '상';
-    if (level >= 34) return '중';
-    return '하';
+    if (level >= 67) return '상 (Expert)';
+    if (level >= 34) return '중 (Proficient)';
+    return '하 (Novice)';
   };
 
   // 은은하고 차분한 파스텔 톤 컬러 팔레트 (너무 튀지 않게)
@@ -91,6 +91,12 @@ const TechStackSection = ({ data }) => {
       initial="hidden"
       animate="visible"
     >
+      <motion.div className="tech-legend" variants={itemVariants}>
+        <div className="legend-item"><span className="legend-badge">상 (Expert)</span> 리딩 및 문제해결</div>
+        <div className="legend-item"><span className="legend-badge">중 (Proficient)</span> 독립적 기능 구현</div>
+        <div className="legend-item"><span className="legend-badge">하 (Novice)</span> 학습 및 보조 수행</div>
+      </motion.div>
+
       <motion.div className="tech-grid" variants={containerVariants}>
         {data.categories?.map((category, idx) => {
           const IconComponent = iconMap[category.icon] || Code2;
@@ -119,7 +125,7 @@ const TechStackSection = ({ data }) => {
                   <div key={skillIdx} className="skill-item">
                     <div className="skill-info">
                       <span className="skill-name">{skill.name}</span>
-                      <span className="skill-label" style={{ color: color }}>
+                      <span className="skill-label" style={{ color: color, fontWeight: 600 }}>
                         {getProficiencyLabel(skill.level)}
                       </span>
                     </div>
@@ -143,6 +149,30 @@ const TechStackSection = ({ data }) => {
       <style>{`
         .tech-section {
           max-width: 1200px;
+        }
+
+        .tech-legend {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          margin-bottom: 24px;
+          padding: 16px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-light);
+          border-radius: 12px;
+          font-size: 0.9rem;
+          color: var(--text-secondary);
+        }
+
+        .legend-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .legend-badge {
+          font-weight: 600;
+          color: var(--text-primary);
         }
 
         .tech-grid {

@@ -147,6 +147,7 @@ export function transformProfile(data) {
     location: row['지역'] || '',
     bio: row['자기소개'] || '',
     profileImage: row['프로필이미지URL'] || '',
+    resumeLink: row['이력서 링크'] || row['이력서링크'] || Object.values(row)[6] || '',
     social: {
       email: row['이메일'] || '',
     },
