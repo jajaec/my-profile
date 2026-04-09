@@ -213,7 +213,9 @@ const AboutSection = ({ data, profile }) => {
           margin: 0;
           padding-left: 16px;
           border-left: 3px solid var(--accent-blue);
-          white-space: pre-line;
+          white-space: pre-wrap;
+          word-break: break-word;
+          overflow-wrap: break-word;
         }
 
         .intro-text:first-child {
@@ -297,6 +299,14 @@ const AboutSection = ({ data, profile }) => {
 
           .intro-text {
             padding-left: 12px;
+          }
+          .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+          }
+          .about-header-row {
+            flex-direction: column;
+            align-items: flex-start;
           }
         }
       `}</style>
