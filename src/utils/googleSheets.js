@@ -3,7 +3,7 @@
  * CSV 데이터를 JSON으로 변환하여 반환
  */
 
-import { getSheetCsvUrl, SHEET_NAMES } from '../config/sheets';
+import { getSheetCsvUrl, getGlossaryCsvUrl, SHEET_NAMES } from '../config/sheets';
 
 /**
  * CSV 문자열을 파싱하여 배열로 변환
@@ -109,6 +109,28 @@ export async function fetchSheetData(sheetName) {
     return csvToObjects(rows);
   } catch (error) {
     console.error(`Error fetching sheet "${sheetName}":`, error);
+    throw error;
+  }
+}
+
+/**
+ * 용어집 데이터 가져오기
+ * @returns {Promise<Array<Object>>} 객체 배열
+ */
+export async function fetchGlossaryData() {
+  try {
+    const url = getGlossaryCsvUrl();
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const csvText = await response.text();
+    const rows = parseCsv(csvText);
+    return csvToObjects(rows);
+  } catch (error) {
+    console.error('Error fetching glossary sheet:', error);
     throw error;
   }
 }
@@ -570,4 +592,43 @@ export function transformResources(data) {
     description: 'IT 및 기타 유용한 정보들을 주제별로 정리했습니다. 클릭하면 Google Docs에서 상세 내용을 확인할 수 있습니다.',
     categories: Array.from(categoryMap.values()),
   };
+}
+/**
+ * 용어집 데이터를 기존 JSON 형식으로 변환
+ */
+export function transformGlossary(data) {
+  if (!data || data.length === 0) return [];
+
+  if (data.length > 0) {
+    console.log('[Glossary] 실제 컬럼명:', Object.keys(data[0]));
+  }
+
+  // 첫 번째 row의 키 목록으로 실제 컬럼명을 동적으로 탐색
+  const findKey = (row, candidates) => {
+    for (const key of Object.keys(row)) {
+      const normalized = key.trim();
+      if (candidates.some(c => normalized === c || normalized.includes(c))) {
+        return row[key] || '';
+      }
+    }
+    return '';
+  };
+
+  return data.map(row => {
+    let memorized = false;
+    const memoStr = String(findKey(row, ['암기 여부', '암기여부', '암기'])).toUpperCase();
+    if (memoStr === 'TRUE' || memoStr === 'O' || memoStr === 'Y') {
+      memorized = true;
+    }
+
+    return {
+      domain: findKey(row, ['분야']),
+      term: findKey(row, ['용어']),
+      abbr: findKey(row, ['약어/원문', '약어/영문', '약어', '원문']),
+      description: findKey(row, ['설명']),
+      importance: findKey(row, ['중요도']),
+      url: findKey(row, ['참고 URL', '참고URL', 'URL']),
+      memorized,
+    };
+  }).filter(item => item.term !== '');
 }

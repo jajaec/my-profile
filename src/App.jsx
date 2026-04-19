@@ -20,6 +20,7 @@ import CertificationsSection from './components/sections/CertificationsSection';
 import MallReportSection from './components/sections/MallReportSection';
 import AddressMapSection from './components/sections/AddressMapSection';
 import BookmarksSection from './components/sections/BookmarksSection';
+import GlossarySection from './components/sections/GlossarySection';
 import ResourcesSection from './components/sections/ResourcesSection';
 import AnalyticsSection from './components/sections/AnalyticsSection';
 
@@ -42,7 +43,7 @@ const scrollSections = [
 ];
 
 // 별도 페이지로 렌더링할 섹션 (가장 하단 메뉴)
-const pageSections = ['bookmarks', 'analytics'];
+const pageSections = ['bookmarks', 'glossary', 'analytics'];
 
 // 섹션 메타 정보 (헤더 타이틀 + 아이콘)
 const sectionMeta = {
@@ -313,6 +314,7 @@ function AppContent() {
           <div className="section-wrapper">
             {activeSection === 'analytics' && <AnalyticsSection />}
             {activeSection === 'bookmarks' && <BookmarksSection data={data.bookmarks} />}
+            {activeSection === 'glossary' && <GlossarySection data={data.glossary} />}
           </div>
         ) : (
           <div className="scroll-content">

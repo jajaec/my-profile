@@ -1,0 +1,352 @@
+.glossary-section {
+  width: 100%;
+}
+
+.glossary-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+@media (min-width: 768px) {
+  .glossary-controls {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.search-bar {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 10px 10px 36px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+}
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.filter-item label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.glossary-summary {
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.glossary-summary strong {
+  color: var(--accent-primary);
+}
+
+.glossary-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.glossary-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* 강제 최소 너비로 스크롤 생성 */
+}
+
+.glossary-table th,
+.glossary-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+
+.glossary-table th {
+  background: rgba(var(--accent-rgb), 0.05);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.glossary-table tr:last-child td {
+  border-bottom: none;
+}
+
+.glossary-table tr {
+  transition: background-color 0.2s;
+}
+
+.glossary-table tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.memorized-row td {
+  opacity: 0.7;
+}
+
+.domain-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--accent-primary);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.status-badge.warning {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.col-domain { width: 12%; }
+.col-term { width: 18%; font-weight: 600; color: var(--text-primary); }
+.col-abbr { width: 15%; color: var(--text-secondary); }
+.col-desc { width: 35%; line-height: 1.5; }
+.col-importance { width: 8%; text-align: center; }
+.col-memorized { width: 6%; text-align: center; }
+.col-url { width: 6%; text-align: center; }
+
+.link-button {
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-button:hover {
+  color: var(--accent-primary);
+}
+
+.no-results {
+  text-align: center !important;
+  color: var(--text-tertiary);
+  padding: 30px 20px !important;
+}
+
+@media (max-width: 1024px) {
+  .col-desc {
+    min-width: 200px;
+  }
+}
+
+/* 모바일 화면 (768px 이하) 비율 조정 및 카드형 UI로 변경 */
+@media (max-width: 768px) {
+  .glossary-table-wrapper {
+    border: none;
+    background: transparent;
+    overflow-x: visible; /* 가로 스크롤 해제 */
+  }
+
+  .glossary-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .glossary-table thead {
+    display: none; /* 모바일에서는 헤더 숨김 */
+  }
+
+  .glossary-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .glossary-table tr {
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .glossary-table tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  .glossary-table td {
+    display: block;
+    width: 100%;
+    padding: 4px 0;
+    border: none;
+    text-align: left;
+  }
+
+  /* 카드 내 순서 및 스타일 재배치 구성 */
+  .col-domain {
+    order: 1;
+    margin-bottom: 8px;
+  }
+
+  .col-term {
+    order: 2;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    padding-right: 40px; /* 링크 버튼 공간 확보 */
+  }
+
+  .col-abbr {
+    order: 3;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .col-desc {
+    order: 4;
+    padding: 12px 0 !important;
+    border-top: 1px dashed var(--border-color) !important;
+    border-bottom: 1px dashed var(--border-color) !important;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+  }
+
+  .col-importance {
+    order: 5;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .col-importance::before {
+    content: "중요도";
+    flex-shrink: 0;
+    min-width: 60px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    background: rgba(var(--accent-rgb), 0.07);
+    border-radius: 4px;
+  }
+
+  .col-memorized {
+    order: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .col-memorized::before {
+    content: "암기 여부";
+    flex-shrink: 0;
+    min-width: 60px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    background: rgba(var(--accent-rgb), 0.07);
+    border-radius: 4px;
+  }
+
+  .col-url {
+    order: 7;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: auto;
+    padding: 0 !important;
+  }
+
+  .link-button {
+    background: rgba(var(--accent-rgb), 0.1);
+    padding: 8px;
+    border-radius: 8px;
+  }
+}
+
+/* 필터와 검색 바 반응형 튜닝 */
+@media (max-width: 640px) {
+  .filter-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .filter-item {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .filter-select {
+    width: 70%;
+  }
+}

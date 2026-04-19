@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  User, Code2, Briefcase, FolderGit2, GraduationCap, Award, Mail, Sun, Moon, Menu, X, Rocket, Bookmark, Library, BarChart3, Target
+  User, Code2, Briefcase, FolderGit2, GraduationCap, Award, Mail, Sun, Moon, Menu, X, Rocket, Bookmark, Library, BarChart3, Target, BookText
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { getDriveUrl } from '../utils/helpers';
@@ -17,6 +17,7 @@ const menuItems = [
   { id: 'resources', label: 'Resources', icon: Library },
   { id: 'webApps', label: 'Playground', icon: Rocket },
   { id: 'bookmarks', label: 'Bookmarks', icon: Bookmark, bottomAction: true },
+  { id: 'glossary', label: '용어집', icon: BookText, bottomAction: true },
   { id: 'analytics', label: 'Analytics', icon: BarChart3, bottomAction: true },
 ];
 

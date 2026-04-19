@@ -17,6 +17,8 @@ import {
   transformLiveDemo,
   transformInternalTools,
   transformResources,
+  fetchGlossaryData,
+  transformGlossary,
 } from '../utils/googleSheets';
 
 /**
@@ -45,6 +47,7 @@ export function useAllSheetData() {
           liveDemoRaw,
           internalToolsRaw,
           resourcesRaw,
+          glossaryRaw,
         ] = await Promise.all([
           fetchSheetData(SHEET_NAMES.PROFILE),
           fetchSheetData(SHEET_NAMES.ABOUT),
@@ -57,6 +60,7 @@ export function useAllSheetData() {
           fetchSheetData(SHEET_NAMES.LIVE_DEMO),
           fetchSheetData(SHEET_NAMES.INTERNAL_TOOLS),
           fetchSheetData(SHEET_NAMES.RESOURCES),
+          fetchGlossaryData(),
         ]);
 
         // 변환된 데이터
@@ -77,6 +81,7 @@ export function useAllSheetData() {
           },
           bookmarks: transformBookmarks(bookmarksRaw),
           resources: transformResources(resourcesRaw),
+          glossary: transformGlossary(glossaryRaw),
         });
         
         setError(null);
