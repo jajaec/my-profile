@@ -34,3 +34,7 @@ export const getGlossaryCsvUrl = () => {
   // 용어집은 첫 번째 시트를 기본으로 가져옵니다.
   return `https://docs.google.com/spreadsheets/d/${GLOSSARY_SHEET_ID}/gviz/tq?tqx=out:csv&headers=1`;
 };
+
+// 용어집 쓰기 API (Google Apps Script Web App URL)
+// scripts/glossary-apps-script.js 참고하여 배포 후 URL 입력
+export const GLOSSARY_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgGEYs6Byxv5R5oHAvDp3deE8HT77-rF60P6mHfFaDhfHGMjLYD4Q5qPsaBJu08HIS/exec';
