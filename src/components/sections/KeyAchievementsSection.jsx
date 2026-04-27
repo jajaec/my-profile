@@ -20,26 +20,26 @@ const KeyAchievementsSection = ({ data }) => {
   // Hardcoded achievements for now as requested, matching the new recruitment tone
   const achievements = [
     {
-      title: "전사 DX 과제 기획 및 AX(AI 전환) 주도",
-      description: "단순한 툴 도입을 넘어, 현업 부서의 실질적인 업무 효율성을 높이는 디지털 전환(DX, RPA)을 안착시키고 AI 전환(AX)을 주도합니다.",
+      title: "AX 전환 실행력",
+      description: "AI, RPA, 자동화 기술을 실제 업무 프로세스에 적용해 조직의 일하는 방식을 개선하는 역량",
       icon: Target,
       color: "#3b82f6" // blue-500
     },
     {
-      title: "레거시와 신기술의 통합 풀사이클 수행",
-      description: "ERP, POS, B2C부터 RPA, AI까지 시스템 파편화를 막고 유기적으로 연결하는 문제 해결에 집중합니다.",
+      title: "레거시 시스템 현대화 역량",
+      description: "기존 ERP, 기간계, 내부 시스템의 구조와 한계를 이해하고 개선 방향을 설계·추진하는 역량",
       icon: TrendingUp,
       color: "#8b5cf6" // violet-500
     },
     {
-      title: "실행형 IT Leadership",
-      description: "팀 운영 및 우선순위 조정, 현업과의 유연한 커뮤니케이션으로 실현 가능한 솔루션을 딜리버리합니다.",
+      title: "현업 중심 문제해결력",
+      description: "기술 자체보다 현업의 반복업무, 비효율, 병목을 파악하고 실질적인 개선안으로 연결하는 역량",
       icon: Users,
       color: "#10b981" // emerald-500
     },
     {
-      title: "다양한 도메인 경험 (제조/유통/물류)",
-      description: "제조업과 유통/물류 도메인의 현장 이해도를 바탕으로 실무 시스템을 개발하고 안정적으로 운영합니다.",
+      title: "기술과 조직을 연결하는 리더십",
+      description: "개발, 운영, 관리 경험을 바탕으로 팀원과 현업 부서를 연결하고 변화가 정착되도록 이끄는 역량",
       icon: Anchor,
       color: "#f59e0b" // amber-500
     }
