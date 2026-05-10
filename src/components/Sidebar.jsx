@@ -4,7 +4,8 @@ import {
   User, Code2, Briefcase, FolderGit2, GraduationCap, Award, Mail, Sun, Moon, Menu, X, Rocket, Bookmark, Library, BarChart3, Target, BookText
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { getDriveUrl } from '../utils/helpers';
+
+const LOCAL_PROFILE_IMAGE = `${import.meta.env.BASE_URL}images/profile.png`;
 
 const menuItems = [
   { id: 'about', label: 'About', icon: User },
@@ -25,9 +26,7 @@ const Sidebar = ({ profile, activeSection, onSectionChange }) => {
   const { theme, toggleTheme } = useTheme();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  // profileImage URL이 있으면 직접 사용, drivePhotoId가 있으면 변환
-  const profileImageSrc = profile.profileImage 
-    || (profile.drivePhotoId ? getDriveUrl(profile.drivePhotoId, 'image') : '');
+  const profileImageSrc = LOCAL_PROFILE_IMAGE;
 
   const SidebarContent = () => (
     <>

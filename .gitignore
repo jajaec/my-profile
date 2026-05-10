@@ -14,6 +14,9 @@ node_modules
 dist
 dist-ssr
 
+# Local profile image
+profile.png
+
 # Environment
 .env
 .env.local
